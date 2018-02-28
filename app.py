@@ -36,10 +36,12 @@ def AddMessage():
         collection = db['message']
         objid = str(collection.insert_one(
             {'name': name, 'phone': phone}).inserted_id)
-        logging.info('success add ' + objid)        
+        logging.info('success add ' + objid) 
+        return jsonify({'status':200})       
     except Exception as e:
         logging.error(e)
-    return jsonify({'status':200})
+        return jsonify({'status':100})
+    
 @app.route('/success',methods=['GET'])
 def callback():
     return render_template('success.html')
