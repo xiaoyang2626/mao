@@ -360,6 +360,7 @@
         <div id="house_1" class="house" style="background-image: url('/static/imgs/new/forth_house_2.png');"></div>
         <div id="house_2" class="house" style="background-image: url('/static/imgs/new/forth_house_3.png');"></div>
         <div id="house_3" class="house" style="background-image: url('/static/imgs/new/forth_house_4.png');"></div>
+        <div id="success" class="house" style="background-image: url('/static/imgs/new/submit_back.png');"></div>
         <div id="question"></div>
         <!--问题图片-->
         <!--户型亮点说明图-->
@@ -703,7 +704,7 @@
         function select(orientation) {//切换功能区页   orientation为切换方向
             if (selected == 1 && orientation == 'right' && completechange && tempstatus) {//页面2
                 //            pagename("url('imgs/second_pagename_1.png')", "url('imgs/first_move_2.png')");
-                //            pagename("url('imgs/new/first_introduce.png')");
+                pagename("url('/static/imgs/new/second_introduce.png')");
                 controls.target = new THREE.Vector3();
                 obj['children'][2].visible = false;//尺寸是否显示
                 plane.constant = 35;//还原Plane
@@ -719,7 +720,7 @@
                 $('#forth').hide();
                 $('#question').hide();
                 //            $('.TypeTable').show();
-                $('.TypeSynopsis').hide();
+                $('.TypeSynopsis').show();
                 $('#timebutton').show();
                 $('#matbutton').hide();
                 $('#submit').hide();
@@ -771,7 +772,7 @@
             if (selected == 2 && orientation == 'right' && completechange && tempstatus) {//页面3
                 changemat = 0;
                 //            pagename("url('imgs/third_pagename_1.png')", "url('imgs/first_move_2.png')");
-                //            pagename("url('imgs/new/first_introduce.png')");
+                pagename("url('/static/imgs/new/third_introduce.png')");
                 camera.position.y = 185;//相机Y坐标为100
                 camera.position.z = 197;//相机Z坐标为300
                 camera.position.x = 0;
@@ -783,7 +784,7 @@
                 $('.first').hide();
                 $('#forth').hide();
                 $('#question').hide();
-                $('.TypeSynopsis').hide();
+                $('.TypeSynopsis').show();
                 $('#timebutton').hide();
                 $('#matbutton').show();
                 $('#submit').hide();
@@ -860,7 +861,7 @@
             }
             if (selected == 3 && orientation == 'left' && completechange && tempstatus) {//页面2
                 //            pagename("url('imgs/second_pagename_1.png')", "url('imgs/first_move_2.png')");
-                //            pagename("url('imgs/new/first_introduce.png')");
+                pagename("url('/static/imgs/new/second_introduce.png')");
                 camera.position.x = 0;
                 //            buttonmove = 0;
                 camera.position.y = 265;//相机Y坐标为100
@@ -875,7 +876,7 @@
                 $('#question').hide();
                 $('#timebutton').show();
                 $('#matbutton').hide();
-                $('.TypeSynopsis').hide();
+                $('.TypeSynopsis').show();
                 $('#submit').hide();
                 $('#form').hide();
                 showMaterials('default');
@@ -923,7 +924,7 @@
             }
             if (selected == 4 && orientation == 'left' && completechange && tempstatus) {//页面3
                 //            pagename("url('imgs/third_pagename_1.png')", "url('imgs/first_move_2.png')");
-                //            pagename("url('imgs/new/first_introduce.png')");
+                pagename("url('/static/imgs/new/third_introduce.png')");
                 camera.position.y = 185;//相机Y坐标为100
                 camera.position.z = 197;//相机Z坐标为300
                 camera.position.x = 0;
@@ -938,7 +939,7 @@
                 $('#question').hide();
                 $('#timebutton').hide();
                 $('#matbutton').show();
-                $('.TypeSynopsis').hide();
+                $('.TypeSynopsis').show();
                 $('#submit').hide();
                 $('#form').hide();
                 showMaterials('4_2');
@@ -1471,18 +1472,26 @@
             $('#house_1').hide();
             $('#house_2').hide();
             $('#house_3').hide();
+            $('#success').hide();
         }
         function addmessage() {
             var pattern = new RegExp(/^1[0-9]{10}$/)
             console.log(pattern.test(trim($('#phone').val())));
-            console.log(trim($('#name').val())!='');
+            console.log(trim($('#name').val()) != '');
             if (pattern.test(trim($('#phone').val())) && trim($('#name').val()) != '') {
                 $.post("/message", { name: $('#name').val(), phone: $('#phone').val() }, function (data) {
                     console.log(data)
                     if (data.status == 200) {
-                        window.location.href = '/success';
+                        clearhouse();
+                        $('#forth').hide();
+                        $('#question').hide();
+                        $('#submit').hide();
+                        $('#form').hide();
+                        $('#success').show();
+                        $('#phone').val('');
+                        $('#name').val('');
                     }
-             
+
                 });
             }
         }
