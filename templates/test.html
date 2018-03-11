@@ -158,6 +158,7 @@
                 <button class="Button" type="button" onclick="hideSize('size')">隐藏整体尺寸</button>
                 <button class="Button" type="button" onclick="showMaterial('default')">default材质贴图</button>
                 <button class="Button" type="button" onclick="showMaterial('first')">first材质贴图</button>
+                <button class="Button" type="button" onclick="videomaterialmoving(point['default'])">移动</button>
             </div>
         </div>
 
@@ -238,7 +239,6 @@
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, (window.innerHeight - 5) * 0.9);
             renderer.localClippingEnabled = true;//开启clipping
-
             //声明绘制层
             containner = document.createElement('div');
             containner.style.paddingTop = $(window).height() * 0.1 + 'px';
@@ -261,7 +261,7 @@
             //创建Plane
             plane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 36);
             //控制器启动自动旋转
-            controls.autoRotate = true;
+            // controls.autoRotate = true;
             //光线设置
             var directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1.1);//定向光
             //定向光位置设置
@@ -291,14 +291,14 @@
             //载入模型与材质
             var mtlLoader = new THREE.MTLLoader();
             mtlLoader.setPath('/static/A1_142/');//mtl路径
-            mtlLoader.load('ahuxing6.mtl', function (materials) {//载入mtl路径的哪个mtl文件
+            mtlLoader.load('A1_142.mtl', function (materials) {//载入mtl路径的哪个mtl文件
                 materials.preload();//载入物料
                 texture = materials;//将导入物料传给程序集变量
                 console.log(materials);
                 var objLoader = new THREE.OBJLoader();//声明obj载入对象
                 objLoader.setMaterials(materials);//给obj模型设置物料
                 objLoader.setPath('/static/A1_142/');//设置obj所在路径
-                objLoader.load('ahuxing6.obj', function (object) {//载入obj
+                objLoader.load('A1_142.obj', function (object) {//载入obj
                     scene.add(object);//将obj添加到画板
                     obj = object;//将模型赋值程序集变量obj
                     console.log(obj);//调试输出模型
@@ -413,10 +413,9 @@
         }
         //相机切换到顶视图(平面图)
         function topview() {
-            console.log(1);
             controls.autoRotate = false;
             camera.position.set(0, 265, 0);
-
+            controls.target = new THREE.Vector3();
         }
         //显示尺寸
         //sizeName为 显示尺寸的name标签值 如size size_1
@@ -457,8 +456,7 @@
             }
         }
 
-
-
+       
 
 
 
