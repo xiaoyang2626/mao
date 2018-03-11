@@ -21,9 +21,17 @@ app.secret_key = os.urandom(12)
 
 
 #进入首页
-@app.route('/', methods=['GET'])
-def home():
-    return render_template('index.html')
+@app.route('/VR/<name>', methods=['GET'])
+def home(name=None):
+    print(name=='A1_142')
+    if name==None:
+        return render_template('K_113.html')
+    elif name=='K_113':
+        return render_template('K_113.html')
+    elif name=='A1_142':
+        return render_template('A1_142.html')
+    elif name=='test':
+        return render_template('test.html')
 
 
 @app.route('/message', methods=['POST'])

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <!--自适应框架CSS-->
+    <!--<link rel="stylesheet" href="css/bootstrap.css">-->
+    <!--JQueryUI CSS库-->
+    <link rel="stylesheet" href="/static/css/jquery-ui.min.css">
+    <!--threejs库-->
+    <script src="/static/js/three.js"></script>
+    <!--threejs控制器库-->
+    <script src="/static/js/OrbitControls.js"></script>
+    <!--JQuery框架-->
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <!--自适应框架-->
+    <!--<script src="js/bootstrap.js"></script>-->
+    <!--threejs obj载入库-->
+    <script src="/static/js/OBJLoader.js"></script>
+    <!--threejs状态栏库-->
+    <!--<script src="js/stats.min.js"></script>-->
+    <!--threejs mtl载入库-->
+    <script src="/static/js/MTLLoader.js"></script>
+    <!--JQueryUI库-->
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <title>格调松间113户型</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        /*加载界面样式*/
+
+        #Loading {
+            background-image: url('/static/imgs/loading.jpg');
+            height: 100%;
+            width: 100%;
+            background-size: 100% 100%;
+            position: absolute;
+            z-index: 100;
+        }
+
+        /*进度条样式*/
+
+        .divprogressbar {
+            position: absolute;
+            top: 45%;
+            width: 100%;
+            height: 50px;
+            background-color: transparent;
+        }
+
+        #progressbar {
+            position: absolute;
+            top: 3%;
+            width: 70%;
+            height: 8px;
+            margin: 0px 15% auto 15%;
+            background-color: transparent;
+        }
+
+        .progress-text {
+            position: absolute;
+            top: 20px;
+            width: 100%;
+            height: 40px;
+            /*left: 40%;*/
+            background-color: transparent;
+            font-family: 微软雅黑;
+            font-size: 18px;
+            text-align: center;
+        }
+
+        /*帮助页面样式*/
+
+        .Help {
+            background-image: url("/static/imgs/new/help.png");
+            height: 100%;
+            width: 100%;
+            background-size: 100% 100%;
+            opacity: 0.7;
+            z-index: 20;
+            position: absolute;
+        }
+
+        /*主界面样式*/
+
+        .Main {
+            background-image: url("/static/imgs/new/main_background.jpg");
+            height: 100%;
+            width: 100%;
+            background-size: 100% 100%;
+            /*position: absolute;*/
+            /*如果是绝对定位会盖住模型*/
+            z-index: 15;
+        }
+
+        .LightImage {
+            background-image: url("/static/imgs/light0.png");
+            height: 100%;
+            width: 100%;
+            background-size: 100% 100%;
+            display: none;
+            position: absolute;
+            /*z-index: 17;*/
+        }
+
+        /*户型标签*/
+
+        .TypeTable {
+            background-image: url("/static/imgs/first_name_1.png");
+            height: 10%;
+            top: 23%;
+            width: 16%;
+            left: 9%;
+            position: absolute;
+            background-size: 100% 100%;
+        }
+
+        /*户型简介*/
+
+        .TypeSynopsis {
+            background-image: url("/static/imgs/new/first_introduce.png");
+            height: 15.56%;
+            top: 11.29%;
+            width: 63.5%;
+            position: absolute;
+            background-size: 100% 100%;
+        }
+
+        /*户型简介详细*/
+
+        .TypeSynopsisTableDetail {
+            background-image: url("/static/imgs/first_move_2.png");
+            height: 3.5%;
+            top: 21.5%;
+            width: 30%;
+            position: absolute;
+            background-size: 100% 100%;
+        }
+
+        /*视频样式*/
+
+        .video {
+            top: 35%;
+            width: 100%;
+            height: 40%;
+            z-index: 2;
+            display: none;
+            position: absolute;
+        }
+
+        .house {
+            margin-top: 46.94%;
+            margin-left: 20.74%;
+            width: 64.26%;
+            height: 38.71%;
+            display: none;
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        .Row {
+            width: 100%;
+            /*height: 35.71%;*/
+            height: 37.97%;
+            display: flex;
+            flex-direction: row;
+            box-sizing: border-box;
+            padding: 0 29.17%;
+            justify-content: space-between;
+            position: absolute;
+            /*top: 29.14%;*/
+            /*left: 0;*/
+        }
+
+        /*尺寸按钮样式*/
+
+        .SizeButton {
+            width: 31.1%;
+            height: 100%;
+            /*margin-left: 20%;*/
+            /*background-image: url('imgs/first_buttonsize_down.png');*/
+            /*background-size: 100% 100%;*/
+            /*display: none;*/
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /*下方功能区样式*/
+
+        .Fun {
+            width: 100%;
+            position: absolute;
+            bottom: 1px;
+            height: 25.7%;
+            text-align: center;
+            /*z-index: 7;*/
+        }
+
+        /*功能选择区*/
+
+        .Check {
+            height: 58.9%;
+            padding-top: 7.7%;
+            position: relative;
+        }
+
+        /*按钮区域样式*/
+
+        /*.ButtonArea {*/
+
+        /*text-align: center;*/
+
+        /*height: 60px;*/
+
+        /*display: none;*/
+
+        /*}*/
+
+        .Button {
+            /*margin-top: 10px;*/
+            /*width: 50px;*/
+            /*height: 50px;*/
+            /*background-size: 50px 50px;*/
+            /*text-align: center;*/
+            /*display: none;*/
+            width: 31.1%;
+            height: 100%;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /*功能切换区*/
+
+        .Bar {
+            /*margin-top: 20px;*/
+            height: 18%;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+        }
+
+        .Select {
+            height: 100%;
+            width: 5.5%;
+            /*margin-top: 20px;*/
+            /*display: inline-block;*/
+            /*border-radius: 100%;*/
+            /*background:transparent;*/
+            /*opacity: .2;*/
+            background-image: url("/static/imgs/new/point_small.png");
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            /*text-align: center;*/
+            /*margin-left: 30.56%;*/
+        }
+
+        .Selected {
+            /*width: 2%;*/
+            /*height: 100%;*/
+            background-image: url("/static/imgs/new/point_big.png");
+            /*background-size: contain;*/
+            /*background-repeat: no-repeat;*/
+            /*background-position: center;*/
+        }
+
+        #question {
+            display: none;
+            width: 52.96%;
+            background-image: url("/static/imgs/new/forth_question.png");
+            height: 3.39%;
+            top: 46.49%;
+            left: 23.51%;
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        #form {
+            display: none;
+            top: 36.69%;
+            width: 71.2%;
+            height: 27.01%;
+            left: 14.81%;
+            top: 36.69%;
+            position: absolute;
+        }
+
+        /*向左按钮*/
+
+        .LeftButton {
+            background-image: url("/static/imgs/new/left.png");
+            /*position: absolute;*/
+            /*top:50%;*/
+            width: 8.3%;
+            height: 100%;
+            /*margin-top: 9px;*/
+            /*margin-left: 30.56%;*/
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+
+        /*向右按钮*/
+
+        .RightButton {
+            background-image: url("/static/imgs/new/right.png");
+            /*background-repeat: no-repeat ;*/
+            /*position: absolute;*/
+            /*top:50%;*/
+            width: 8.3%;
+            height: 100%;
+            /*margin-top: 9px;*/
+            /*margin-left: 70% -33px;*/
+            /*padding-right: 100px;*/
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+    </style>
+    <!--<script type="text/javascript">-->
+    <!--var designWidth = 1080;-->
+
+    <!--function resize(){-->
+
+    <!--var width = document.documentElement.clientWidth;-->
+    <!--var fontSize = (width/designWidth)*150;-->
+
+    <!--document.documentElement.style.fontSize = fontSize + "px";-->
+    <!--}-->
+
+    <!--resize();-->
+
+    <!--window.onresize = resize;-->
+    <!--</script>-->
+</head>
+
+<body style="height:100%">
+
+
+
+    <div class="Main">
+       
+        <!--问题图片-->
+        <!--户型亮点说明图-->
+
+      
+        <!--<div class="TypeTable"></div>&lt;!&ndash;户型标签&ndash;&gt;-->
+   
+        <!--户型简介标签-->
+        <!--<div id="move2" class="TypeSynopsisTableDetail"></div>&lt;!&ndash;户型简介详细标签&ndash;&gt;-->
+        <div id="model"></div>
+        <!--模型层-->
+       
+     
+    </div>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan style='display:none;' id='cnzz_stat_icon_1273038767'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1273038767%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">
+        //    var stats;//状态栏
+        var containner;//绘制层
+        var scene;//画板
+        var camera;//相机
+        var controls;//控制器
+        var renderer;//渲染器
+        var texture;//物料集
+        var optimeout;//首页渐变的时钟
+        var sizetimeout;//显示尺寸渐变时钟
+        var movetimeout;//对焦点移动的时钟
+        var materialtimeout;//切换物料的时钟
+        var obj;//模型
+        var plane//plane块
+        var modify = 1;
+        var materialsnames = {
+            'default': ['1_jiaju_1', '1_jiaju_2', '1_jiaju_3', '1_qiangti'],
+            '4_2': ['2_jiaju_1', '2_jiaju_2', '2_jiaju_3', '2_qiangti'],
+            '4_1': ['1_jiaju_1', '1_jaiju_2', '1_jiaju_3', '1_qiangti']
+        };
+        var point = {
+            //        'default': [{
+            //            'control': new THREE.Vector3(-20, 0, 19),
+            //            'camera': new THREE.Vector3(-20, 216, 19)
+            //        },
+            //            {
+            //                'control': new THREE.Vector3(-51, -4, 19),
+            //                'camera': new THREE.Vector3(-51, 127, 49)
+            //            },
+            //            {
+            //                'control': new THREE.Vector3(36, -4, 15),
+            //                'camera': new THREE.Vector3(36, 159, 52)
+            //            },
+            //            {
+            //                'control': new THREE.Vector3(21, 6, -31),
+            //                'camera': new THREE.Vector3(21, 132, -3)
+            //            },
+            //            {
+            //                'control': new THREE.Vector3(0, 0, 0),
+            //                'camera': new THREE.Vector3(0, 265, 0)
+            //            }
+            //        ]
+            'default': [{
+                'control': new THREE.Vector3(39, -13, 16),
+                'camera': new THREE.Vector3(39, 128, 67)
+            },
+            {
+                'control': new THREE.Vector3(0, 0, 0),
+                'camera': new THREE.Vector3(0, 113, 75)
+            },
+            {
+                'control': new THREE.Vector3(-38, -14, 40),
+                'camera': new THREE.Vector3(-38, 117, 62)
+            },
+            {
+                'control': new THREE.Vector3(-32, -8, 4),
+                'camera': new THREE.Vector3(-32, 124, 34)
+            },
+            {
+                'control': new THREE.Vector3(-23, 1, -40),
+                'camera': new THREE.Vector3(-23, 134, -10)
+            },
+            {
+                'control': new THREE.Vector3(0, 0, 0),
+                'camera': new THREE.Vector3(0, 265, 0)
+            }
+            ]
+        };
+        var material = ['1_jiaju_1', '1_jiaju_2', '1_jiaju_3', '1_qiangti',
+            '2_jiaju_1', '2_jiaju_2', '2_jiaju_3', '2_qiangti'
+        ];
+        initProgressbar();//初始化进度条
+        var selected = 1;//当前被选中的功能区页
+        var buttontime;//当前被选中的时间按钮
+        //    var spriteMapke = new THREE.TextureLoader().load("imgs/second_sprite_ke.png");
+        //    var spriteMapchu = new THREE.TextureLoader().load("imgs/second_sprite_chu.png");
+        //    var spriteMapwei = new THREE.TextureLoader().load("imgs/second_sprite_wei.png");
+        //    var spriteMapwo = new THREE.TextureLoader().load("imgs/second_sprite_wo.png");
+        //测试sprite
+        //    var spriteMaterial = new THREE.SpriteMaterial({map: spriteMapke, color: 0xffffff});
+        //    var sprite = new THREE.Sprite(spriteMaterial);
+        //    console.log(sprite['material'].map);
+        var buttonmove;//当前被选中的点位按钮
+        //初始化户型简介 以及户型简介详细标签
+        $('.TypeSynopsis').css('left', $(window).width());
+        $('.TypeSynopsisTableDetail').css('left', $(window).width());
+        initProgressbar();//初始化进度条
+        init();//初始化模型状态
+        animate();//实时更新模型状态
+        //初始化模型
+        function init() {
+            //声明画板
+            scene = new THREE.Scene();
+            //声明渲染器
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });//antialias:true是否启用抗锯齿
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, (window.innerHeight - 5) * 0.9);
+            renderer.localClippingEnabled = true;//开启clipping
+            
+            //声明绘制层
+            containner = document.createElement('div');
+            containner.style.paddingTop = $(window).height() * 0.1 + 'px';
+            //        containner.style.height = 100%;
+            //将绘制层添加到模型层
+            $('#model').append(containner);
+            //设置模型层高度
+            $('#model').height($(window).height());
+            //向绘制层添加渲染结果
+            containner.appendChild(renderer.domElement);
+            //相机
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+            camera.position.y = 185;//相机Y坐标为100
+            camera.position.z = 197;//相机Z坐标为300
+            camera.position.x = 0;
+            //为相机添加控制器
+            controls = new THREE.OrbitControls(camera);
+            //监听控制器改变函数运行方法render
+            controls.addEventListener('change', render);
+            //创建Plane
+            plane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 36);
+            //控制器启动自动旋转
+            controls.autoRotate = true;
+            //光线设置
+            var directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1.5);//定向光
+            //定向光位置设置
+            directionalLight.position.set(56, 75, -134);
+            //向画板中添加定向光
+            scene.add(directionalLight);
+            //第二个定向光
+            var light1 = new THREE.DirectionalLight(0xFFFFFF, 1.1);
+            light1.position.set(-75, 39, 75);
+            scene.add(light1);
+            //环境光
+            var light2 = new THREE.AmbientLight(0xFFFFFF);//环境光
+            //向画板添加环境光
+            scene.add(light2);
+            //        sprite.visible = false;
+            //        sprite.position.x=-60;
+            //        sprite.scale.x = 40;
+            //        sprite.scale.y = 40;
+            //        sprite.scale.z = 40;
+            //        scene.add(sprite);
+            //        console.log(sprite);
+            //声明载入过程函数以及载入失败函数
+            var progressbar = $("#progressbar");//进度条
+            var onProgress = function (xhr) {
+                if (xhr.lengthComputable) {
+                    var percentComplete = xhr.loaded / xhr.total * 100;//完成进度的百分比
+                    progressbar.progressbar("value", Math.round(percentComplete, 2));//设置进度条已完成的半分比数字
+                }
+            };
+            //载入模型失败调用的函数(此函数暂时无法被调用)
+            var onError = function (xhr) {
+                console.log('error');
+            };
+            //载入模型与材质
+            var mtlLoader = new THREE.MTLLoader();
+            mtlLoader.setPath('/static/A1_142/');//mtl路径
+            mtlLoader.load('ahuxingxiuggai.mtl', function (materials) {//载入mtl路径的哪个mtl文件
+                materials.preload();//载入物料
+                texture = materials;//将导入物料传给程序集变量
+                // materials['materials']['1_qiangti']['clippingPlanes'] = [plane];//设置将plane附着在哪个模型
+                // materials['materials']['1_jiaju_1']['clippingPlanes'] = [plane];
+                // materials['materials']['1_jaiju_2']['clippingPlanes'] = [plane];
+                // materials['materials']['1_jiaju_3']['clippingPlanes'] = [plane];
+                // materials['materials']['1_qiangti']['clipShadows'] = true;//设置plane阴影启用
+                console.log(materials);
+                var objLoader = new THREE.OBJLoader();//声明obj载入对象
+                objLoader.setMaterials(materials);//给obj模型设置物料
+                objLoader.setPath('/static/A1_142/');//设置obj所在路径
+                objLoader.load('ahuxing11111.obj', function (object) {//载入obj
+                    scene.add(object);//将obj添加到画板
+                    obj = object;//将模型赋值程序集变量obj
+                    console.log(obj);//调试输出模型
+                    // obj.scale.x = 0.25;//模型X轴缩放系数
+                    // obj.scale.y = 0.25;//模型Y轴缩放系数
+                    // obj.scale.z = 0.25;//模型Z轴缩放系数
+                    console.log(obj['children'][11]['material'])
+                    console.log(obj['children'][13]['material'])
+                    console.log(obj['children'][14]['material'])
+                    // obj['children'][11]['material'].color = new THREE.Color(0, 0, 0);
+                    // obj['children'][13]['material'].color = new THREE.Color(0, 0, 0);
+                    // obj['children'][14]['material'].color = new THREE.Color(0, 0, 0);
+                    buttontime = 1;//当前时间按钮选中位置
+                    //                    $('#keting').css('background-image', "url('imgs/second_ke_down.png')");//默认客厅按钮选中
+                    //                    isAlltouming(false);
+                    // showMaterials('default');
+                    optimeout = setInterval(opacity, 100);//首页渐变
+                }, onProgress, onError);
+            });
+            //        stats = new Stats();
+            //        stats.showPanel(2);
+            //        containner.appendChild(stats.dom);
+            window.addEventListener('resize', onWindowResize, false);//添加尺寸改变监听
+        }
+
+        function onWindowResize() {//屏幕尺寸改变调用函数
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {//动画更新函数
+            //        console.log('----------controls---------');
+            //        console.log(controls.target);
+            //        console.log('==========camera===========');
+            //        console.log(camera.position);
+            requestAnimationFrame(animate);
+            controls.update();
+            //        stats.update();
+            render();
+
+        }
+
+        function render() {//控制器改变事件
+
+            if (controls.getState() != -1) {//如果用户操作
+                controls.autoRotate = false;//停止控制器自转
+            }
+            renderer.render(scene, camera);
+        }
+
+        //----------------------------------分割线以上是模型加载Threejs------------------------------------------------
+        function opacity() {//渐变进入Main界面
+            $('#Loading').css('opacity', $("#Loading").css('opacity') - 0.1);//Loading页面透明度减少0.1
+            var opval = $('#Loading').css('opacity');//读取loading页面透明度
+            if (opval <= 0) {
+                //渐变结束
+                clearInterval(optimeout);//清除渐变时钟
+                $('#Loading').hide();//loading页面隐藏
+                //初始化户型简介 以及户型简介详细标签
+                pagename("url('/static/imgs/new/first_introduce.png')");
+            }
+        }
+
+        function initProgressbar() {//初始化进度条
+            var progressbar = $("#progressbar"),
+                progressLabel = $(".progress-text");
+
+            progressbar.progressbar({
+                value: false,
+                change: function () {
+                    progressLabel.text(progressbar.progressbar("value") + "%");
+                },
+                complete: function () {
+                    // progressLabel.text("complete！");
+                }
+            });
+        }
+
+
+        //----------------------------------分割线以下是功能函数------------------------------------------------
+        function isShowsize() {//是否显示尺寸
+            if (!visiblesize) {//visiblesize为false 显示尺寸
+                texture['materials']['sice'].transparent = false;
+                sizetimeout = setInterval(showsize, 100);
+                visiblesize = true;
+                $('.SizeButton').css('background-image', "url('/static/imgs/first_buttonsize_up.png')");
+            }
+            else {//清除尺寸
+                clearInterval(sizetimeout);
+                texture['materials']['sice'].transparent = true;
+                texture['materials']['sice'].opacity = 0;
+                visiblesize = false;
+                $('.SizeButton').css('background-image', "url('/static/imgs/first_buttonsize_down.png')");
+            }
+        }
+
+        function showsize() {//渐变显示尺寸
+            texture['materials']['sice'].opacity = texture['materials']['sice'].opacity + 0.1;
+            var sizeopacity = texture['materials']['sice'].opacity;
+            if (sizeopacity >= 1) {
+                clearInterval(sizetimeout);
+            }
+        }
+
+        var changemat = 0;
+        var completechange = true;
+        var direction1 = 'up';
+        // var plane1 = new THREE.Plane(new THREE.Vector3(0, -1, 0), 30);
+
+        function showMaterials(materialname) {
+            //所有材质显示消失
+            if (completechange && tempstatus) {
+
+                if (materialname == 'default') {
+                    clearMaterials();
+                    clearMatButton();
+                    completechange = false;
+
+                    for (var v1 in materialsnames['default']) {
+                        console.log(materialsnames['default'][v1])
+                        texture['materials'][materialsnames['default'][v1]].transparent = false;
+                    }
+                    obj['children'][11].visible = true;
+                    materialtimeout = setInterval("showtimeMaterials(materialsnames['default'])", 100);
+                }
+                if (materialname == '4_1' && changemat != 2) {
+                    clearMaterials();
+                    clearMatButton();
+                    completechange = false;
+                    $('#4_1').css('background-image', "url('imgs/new/third_basic_down.png')");
+                    for (var v2 in materialsnames['4_1']) {
+                        texture['materials'][materialsnames['4_1'][v2]].transparent = false;
+                    }
+                    changemat = 2;
+                    controls.enabled = false;
+                    materialtimeout = setInterval("showtimeMaterials(materialsnames['4_1'],point['default'])", 100);
+                }
+                if (materialname == '4_2' && changemat != 3) {
+                    clearMaterials();
+                    clearMatButton();
+                    completechange = false;
+                    $('#4_2').css('background-image', "url('/static/imgs/new/third_modify_down.png')");
+                    for (var v3 in materialsnames['4_2']) {
+                        texture['materials'][materialsnames['4_2'][v3]].transparent = false;
+                    }
+                    // texture['materials']['2_qiangti']['clippingPlanes'] = [plane1];//设置将plane附着在哪个模型
+                    // texture['materials']['2_jiaju_1']['clippingPlanes'] = [plane1];
+                    // texture['materials']['2_jiaju_2']['clippingPlanes'] = [plane1];
+                    // texture['materials']['2_jiaju_3']['clippingPlanes'] = [plane1];
+                    // texture['materials']['2_qiangti']['clipShadows'] = true;//设置plane阴影启用
+
+                    // plane1.constant = 30;
+                    $('#plane1').css('background-image', "url('/static/imgs/new/first_clipping_up.png')");
+                    direction1 = 'up';
+                    // changemat = 3;
+                    controls.enabled = false;
+
+                    materialtimeout = setInterval("showtimeMaterials(materialsnames['4_2'],point['default'])", 100);
+
+                    // console.log(texture);
+                }
+                if (materialname == '4_3' && changemat != 4) {
+                    //                clearMaterials();
+                    positionDefault();
+                    clearMatButton();
+                    // $('#4_3').css('background-image', "url('imgs/new/first_plane_down.png')");
+                    //                completechange = false;
+                    //                $('#4_3').css('background-image', "url('imgs/third_four_down.png')");
+                    //                for (var v4 in materialsnames['4_3']) {
+                    //                    texture['materials'][materialsnames['4_3'][v4]].transparent = false;
+                    //                }
+                    changemat = 4;
+                    //                controls.enabled = false;
+                    //                materialtimeout = setInterval("showtimeMaterials(materialsnames['4_3'])", 100);
+                }
+                if (materialname == '4_4' && changemat != 5) {
+                    // clearMaterials();
+                    clearMatButton();
+                    // completechange = false;
+                    // $('#4_4').css('background-image', "url('imgs/third_five_down.png')");
+                    // for (var v5 in materialsnames['4_4']) {
+                    //     texture['materials'][materialsnames['4_4'][v5]].transparent = false;
+                    // }
+                    var planetimeout1;
+
+                    // planetimeout1 = setInterval(function () {
+                    //     if (direction1 == 'down') {
+                    //         plane1.constant += 1;
+                    //         if (plane1.constant >= 30) {
+                    //             $('#plane1').css('background-image', "url('/static/imgs/new/first_clipping_up.png')");
+                    //             direction1 = 'up';
+                    //             clearInterval(planetimeout1);
+                    //         }
+                    //     }
+                    //     if (direction1 == 'up') {
+                    //         plane1.constant -= 1;
+                    //         if (plane1.constant <= 11) {
+                    //             $('#plane1').css('background-image', "url('/static/imgs/new/first_clipping_down.png')");
+                    //             direction1 = 'down';
+                    //             clearInterval(planetimeout1);
+                    //         }
+                    //     }
+                    // }, 10);
+                    // changemat = 5;
+                    // materialtimeout = setInterval("showtimeMaterials(materialsnames['4_4'])", 100);
+                }
+            }
+
+
+        }
+
+        function clearMaterials() {
+            for (var i in material) {
+                // console.log(texture['materials'][material[i]])
+                texture['materials'][material[i]].transparent = true;
+                texture['materials'][material[i]].opacity = 0;
+            }
+            obj['children'][11].visible = false;
+            obj['children'][13].visible = false;
+            obj['children'][14].visible = false;
+        }
+
+
+
+
+
+
+
+    </script>
+</body>
+
+</html>
