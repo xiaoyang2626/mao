@@ -34,7 +34,7 @@
         /*加载界面样式*/
 
         #Loading {
-            background-image: url('/static/imgs/loading.jpg');
+            background-image: url('/static/imgs/A1_142/loading.jpg');
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
@@ -85,7 +85,7 @@
             position: absolute;
         }
         .thirdhelp{
-            background-image: url("/static/imgs/new/help.png");
+            background-image: url("/static/imgs/A1_142/third_remind.png");
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
@@ -97,7 +97,7 @@
         /*主界面样式*/
 
         .Main {
-            background-image: url("/static/imgs/new/main_background.jpg");
+            background-image: url("/static/imgs/A1_142/main_background.jpg");
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
@@ -106,7 +106,7 @@
             z-index: 15;
         }
         .notice{
-            background-image: url("/static/imgs/new/second_remind.png");
+            background-image: url("/static/imgs/A1_142/second_remind.png");
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
@@ -116,7 +116,7 @@
         }
 
         .LightImage {
-            background-image: url("/static/imgs/light0.png");
+            background-image: url("/static/imgs/A1_142/light0.png");
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
@@ -140,7 +140,7 @@
         /*户型简介*/
 
         .TypeSynopsis {
-            background-image: url("/static/imgs/new/first_introduce.png");
+            background-image: url("/static/imgs/A1_142/first_introduce.png");
             height: 15.56%;
             top: 11.29%;
             width: 63.5%;
@@ -377,9 +377,9 @@
     <div class="Main"  >
         <!--主界面-->
         
-        <div id="house_1" class="house" style="background-image: url('/static/imgs/new/forth_house_2.png');"></div>
-        <div id="house_2" class="house" style="background-image: url('/static/imgs/new/forth_house_3.png');"></div>
-        <div id="house_3" class="house" style="background-image: url('/static/imgs/new/forth_house_4.png');"></div>
+        <div id="house_1" class="house" style="background-image: url('/static/imgs/A1_142/forth_house_2.png');"></div>
+        <div id="house_2" class="house" style="background-image: url('/static/imgs/A1_142/forth_house_3.png');"></div>
+        <div id="house_3" class="house" style="background-image: url('/static/imgs/A1_142/forth_house_4.png');"></div>
         <div id="success" class="house" style="background-image: url('/static/imgs/new/submit_back.png');"></div>
         <div id="question"></div>
         <!--问题图片-->
@@ -428,7 +428,7 @@
                     <!--改变Plane-->
                 </div>
                 <div class="Row " id="timebutton" style="display: none">
-                    <audio id="moveaudio" preload="auto" src="/static/audio/new/A1.mp3"></audio>
+                    <audio id="moveaudio" preload="auto" src="/static/audio/A1_142.mp3"></audio>
                     <!--<audio id="moveaudio_1" preload="auto" src="audio/new/2.mp3"></audio>-->
                     <!--<audio id="moveaudio_2" preload="auto" src="audio/new/3.mp3"></audio>-->
                     <!--<audio id="moveaudio_3" preload="auto" src="audio/new/4.mp3"></audio>-->
@@ -491,9 +491,9 @@
         var plane//plane块
         var modify = 1;
         var materialsnames = {
-            'default': ['1_jiaju_1', '1_jiaju_2', '1_jiaju_3', '1_qiangti'],
+            'default': ['1_jiaju_1', '1_jiaju_2', '1_jiaju_3', '1_qiangti','1_jiaju_4'],
             '4_2': ['2_jiaju_1', '2_jiaju_2', '2_jiaju_3', '2_qiangti'],
-            '4_1': ['1_jiaju_1', '1_jaiju_2', '1_jiaju_3', '1_qiangti']
+            '4_1': ['1_jiaju_1', '1_jaiju_2', '1_jiaju_3', '1_qiangti','1_jiaju_4']
         };
         var point = {
             //        'default': [{
@@ -518,24 +518,32 @@
             //            }
             //        ]
             'default': [{
-                'control': new THREE.Vector3(39, -13, 16),
-                'camera': new THREE.Vector3(39, 128, 67)
+                'control': new THREE.Vector3(34, 9, -10),
+                'camera': new THREE.Vector3(35, 98, 34)
             },
             {
-                'control': new THREE.Vector3(0, 0, 0),
-                'camera': new THREE.Vector3(0, 113, 75)
+                'control': new THREE.Vector3(32, -2, 14),
+                'camera': new THREE.Vector3(32, 156, 66)
             },
             {
-                'control': new THREE.Vector3(-38, -14, 40),
-                'camera': new THREE.Vector3(-38, 117, 62)
+                'control': new THREE.Vector3(33, 0, 13),
+                'camera': new THREE.Vector3(0, 103, 54)
             },
             {
-                'control': new THREE.Vector3(-32, -8, 4),
-                'camera': new THREE.Vector3(-32, 124, 34)
+                'control': new THREE.Vector3(21, 5, -25),
+                'camera': new THREE.Vector3(21, 104, -12)
             },
             {
-                'control': new THREE.Vector3(-23, 1, -40),
-                'camera': new THREE.Vector3(-23, 134, -10)
+                'control': new THREE.Vector3(-2, 1, -28),
+                'camera': new THREE.Vector3(-2, 102, -4)
+            },
+            {
+                'control': new THREE.Vector3(-23, 6, -31),
+                'camera': new THREE.Vector3(-1, 102, -16)
+            },
+            {
+                'control': new THREE.Vector3(-44, -2, 7),
+                'camera': new THREE.Vector3(-44, 166, 29)
             },
             {
                 'control': new THREE.Vector3(0, 0, 0),
@@ -544,7 +552,7 @@
             ]
         };
         var material = ['1_jiaju_1', '1_jiaju_2', '1_jiaju_3', '1_qiangti',
-            '2_jiaju_1', '2_jiaju_2', '2_jiaju_3', '2_qiangti'
+            '2_jiaju_1', '2_jiaju_2', '2_jiaju_3', '2_qiangti','1_jiaju_4'
         ];
         initProgressbar();//初始化进度条
         var selected = 1;//当前被选中的功能区页
@@ -562,6 +570,7 @@
         $('.TypeSynopsis').css('left', $(window).width());
         $('.TypeSynopsisTableDetail').css('left', $(window).width());
         $('.Main').hide();
+        $('.Help').hide();
         initProgressbar();//初始化进度条
         init();//初始化模型状态
         animate();//实时更新模型状态
@@ -651,6 +660,7 @@
                 materials['materials']['1_jiaju_1']['clippingPlanes'] = [plane];
                 materials['materials']['1_jiaju_2']['clippingPlanes'] = [plane];
                 materials['materials']['1_jiaju_3']['clippingPlanes'] = [plane];
+                materials['materials']['1_jiaju_4']['clippingPlanes'] = [plane];
                 materials['materials']['1_qiangti']['clipShadows'] = true;//设置plane阴影启用
                 console.log(materials);
                 var objLoader = new THREE.OBJLoader();//声明obj载入对象
@@ -689,10 +699,10 @@
         }
 
         function animate() {//动画更新函数
-            //        console.log('----------controls---------');
-            //        console.log(controls.target);
-            //        console.log('==========camera===========');
-            //        console.log(camera.position);
+            // console.log('----------controls---------');
+            // console.log(controls.target);
+            // console.log('==========camera===========');
+            // console.log(camera.position);
             requestAnimationFrame(animate);
             controls.update();
             //        stats.update();
@@ -717,7 +727,7 @@
                 clearInterval(optimeout);//清除渐变时钟
                 $('#Loading').hide();//loading页面隐藏
                 //初始化户型简介 以及户型简介详细标签
-                pagename("url('/static/imgs/new/first_introduce.png')");
+                pagename("url('/static/imgs/A1_142/first_introduce.png')");
             }
         }
 
@@ -733,6 +743,7 @@
                 complete: function () {
                     // progressLabel.text("complete！");
                     $('.Main').show();
+                    $('.Help').show();
                 }
             });
         }
@@ -741,7 +752,7 @@
         function select(orientation) {//切换功能区页   orientation为切换方向
             if (selected == 1 && orientation == 'right' && completechange && tempstatus) {//页面2
                 //            pagename("url('imgs/second_pagename_1.png')", "url('imgs/first_move_2.png')");
-                pagename("url('/static/imgs/new/second_introduce.png')");
+                pagename("url('/static/imgs/A1_142/second_introduce.png')");
                 controls.target = new THREE.Vector3();
                 obj['children'][7].visible = false;//尺寸是否显示
                 plane.constant = 36;//还原Plane
@@ -810,7 +821,7 @@
                 changemat = 0;
                 //            pagename("url('imgs/third_pagename_1.png')", "url('imgs/first_move_2.png')");
                 $('.thirdhelp').show();
-                pagename("url('/static/imgs/new/third_introduce.png')");
+                pagename("url('/static/imgs/A1_142/third_introduce.png')");
                 camera.position.y = 265;//相机Y坐标为100
                 camera.position.z = 0;//相机Z坐标为300
                 camera.position.x = 0;
@@ -842,7 +853,7 @@
             if (selected == 2 && orientation == 'left' && completechange && tempstatus) {//页面1
                 //            pagename("url('imgs/first_move_1.png')", "url('imgs/first_move_2.png')");
                 $('.TypeSynopsis').show();
-                pagename("url('/static/imgs/new/first_introduce.png')");
+                pagename("url('/static/imgs/A1_142/first_introduce.png')");
                 camera.position.y = 185;//相机Y坐标为100
                 camera.position.z = 197;//相机Z坐标为300
                 camera.position.x = 0;
@@ -899,7 +910,7 @@
             }
             if (selected == 3 && orientation == 'left' && completechange && tempstatus) {//页面2
                 //            pagename("url('imgs/second_pagename_1.png')", "url('imgs/first_move_2.png')");
-                pagename("url('/static/imgs/new/second_introduce.png')");
+                pagename("url('/static/imgs/A1_142/second_introduce.png')");
                 camera.position.x = 0;
                 //            buttonmove = 0;
                 camera.position.y = 265;//相机Y坐标为100
@@ -935,7 +946,7 @@
                 //            pagename("url('imgs/first_move_1.png')", "url('imgs/first_move_2.png')");
                 $('.TypeSynopsis').show();
                 clearhouse();
-                pagename("url('/static/imgs/new/first_introduce.png')");
+                pagename("url('/static/imgs/A1_142/first_introduce.png')");
                 camera.position.y = 185;//相机Y坐标为100
                 camera.position.z = 197;//相机Z坐标为300
                 camera.position.x = 0;
@@ -965,7 +976,7 @@
             if (selected == 4 && orientation == 'left' && completechange && tempstatus) {//页面3
                 //            pagename("url('imgs/third_pagename_1.png')", "url('imgs/first_move_2.png')");
                 $('.thirdhelp').show();
-                pagename("url('/static/imgs/new/third_introduce.png')");
+                pagename("url('/static/imgs/A1_142/third_introduce.png')");
                 camera.position.y = 265;//相机Y坐标为100
                 camera.position.z = 0;//相机Z坐标为300
                 camera.position.x = 0;
@@ -1132,7 +1143,7 @@
 
         function clearMaterials() {
             for (var i in material) {
-                // console.log(texture['materials'][material[i]])
+                console.log(texture['materials'][material[i]])
                 texture['materials'][material[i]].transparent = true;
                 texture['materials'][material[i]].opacity = 0;
             }
@@ -1258,7 +1269,7 @@
 
                 movingtargetcamera(point[0], 0); 
 
-                obj['children'][9].visible = true;
+                obj['children'][10].visible = true;
                 var index = 1;
                 var end = parseInt(point.length) - 1;
                 var timeoutZong = setInterval(function () {
@@ -1266,7 +1277,7 @@
                         if (i == index) {
                             //                        console.log(index);
                             if (index == 1) {
-                                obj['children'][10].visible = true;
+                                obj['children'][9].visible = true;
                             }
                             if (index !== end && audioID !== '' && audioID) {
                                 //                            $(audioID + '_' + i)[0].play();//第五个点没有声音
@@ -1289,7 +1300,7 @@
                         clearInterval(timeoutZong);
                     }
                     index++;
-                }, 8000);
+                }, 9000);
             }
         }
 
@@ -1357,7 +1368,7 @@
                 //            }
                 if (temptarget && tempcamera) {
                     if (number != null) {
-                        $('.LightImage').css('background-image', "url('/static/imgs/light" + number + ".png')");
+                        $('.LightImage').css('background-image', "url('/static/imgs/A1_142/light" + number + ".png')");
                         $('.LightImage').show();
                     }
                     //                tempstatus = true;
@@ -1440,7 +1451,7 @@
                     }
                     if (direction == 'up') {
                         plane.constant -= 1;
-                        if (plane.constant <= 10) {
+                        if (plane.constant <= 11) {
                             $('#plane').css('background-image', "url('/static/imgs/new/first_clipping_down.png')");
                             $('#plane1').css('background-image', "url('/static/imgs/new/first_clipping_up.png')");
                             direction = 'down';
