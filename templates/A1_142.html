@@ -84,7 +84,16 @@
             z-index: 20;
             position: absolute;
         }
-
+        .thirdhelp{
+            background-image: url("/static/imgs/new/help.png");
+            height: 100%;
+            width: 100%;
+            background-size: 100% 100%;
+            opacity: 0.7;
+            display:none;
+            z-index: 18;
+            position: absolute;
+        }
         /*主界面样式*/
 
         .Main {
@@ -95,6 +104,15 @@
             /*position: absolute;*/
             /*如果是绝对定位会盖住模型*/
             z-index: 15;
+        }
+        .notice{
+            background-image: url("/static/imgs/new/second_remind.png");
+            height: 100%;
+            width: 100%;
+            background-size: 100% 100%;
+            display: none;
+            z-index: 17;
+            position:absolute;
         }
 
         .LightImage {
@@ -354,9 +372,11 @@
         </div>
     </div>
     <div class="Help" onclick="disshowhelp()"></div>
-
-    <div class="Main">
+    <div class="thirdhelp" onclick=" $('.thirdhelp').hide();"></div>
+    <div class="notice"></div>
+    <div class="Main"  >
         <!--主界面-->
+        
         <div id="house_1" class="house" style="background-image: url('/static/imgs/new/forth_house_2.png');"></div>
         <div id="house_2" class="house" style="background-image: url('/static/imgs/new/forth_house_3.png');"></div>
         <div id="house_3" class="house" style="background-image: url('/static/imgs/new/forth_house_4.png');"></div>
@@ -541,9 +561,20 @@
         //初始化户型简介 以及户型简介详细标签
         $('.TypeSynopsis').css('left', $(window).width());
         $('.TypeSynopsisTableDetail').css('left', $(window).width());
+        $('.Main').hide();
         initProgressbar();//初始化进度条
         init();//初始化模型状态
         animate();//实时更新模型状态
+        $('.Main').on('touchstart',function(){
+            if(!tempstatus){
+                $('.notice').show();
+                if(temptimeout==undefined){
+                    setTimeout(function(){
+                    $('.notice').hide();
+                },3000);
+                }                
+            }
+        })
         //初始化模型
         function init() {
             //声明画板
@@ -613,7 +644,7 @@
             //载入模型与材质
             var mtlLoader = new THREE.MTLLoader();
             mtlLoader.setPath('/static/A1_142/');//mtl路径
-            mtlLoader.load('ahuxing6.mtl', function (materials) {//载入mtl路径的哪个mtl文件
+            mtlLoader.load('A1_142.mtl', function (materials) {//载入mtl路径的哪个mtl文件
                 materials.preload();//载入物料
                 texture = materials;//将导入物料传给程序集变量
                 materials['materials']['1_qiangti']['clippingPlanes'] = [plane];//设置将plane附着在哪个模型
@@ -625,16 +656,16 @@
                 var objLoader = new THREE.OBJLoader();//声明obj载入对象
                 objLoader.setMaterials(materials);//给obj模型设置物料
                 objLoader.setPath('/static/A1_142/');//设置obj所在路径
-                objLoader.load('ahuxing6.obj', function (object) {//载入obj
+                objLoader.load('A1_142.obj', function (object) {//载入obj
                     scene.add(object);//将obj添加到画板
                     obj = object;//将模型赋值程序集变量obj
                     console.log(obj);//调试输出模型
                     obj.scale.x = 2;//模型X轴缩放系数
                     obj.scale.y = 2;//模型Y轴缩放系数
                     obj.scale.z = 2;//模型Z轴缩放系数
-                    console.log(obj['children'][7]['material'])
-                    console.log(obj['children'][9]['material'])
-                    console.log(obj['children'][10]['material'])
+                    // console.log(obj['children'][7]['material'])
+                    // console.log(obj['children'][9]['material'])
+                    // console.log(obj['children'][10]['material'])
                     obj['children'][7]['material'].color = new THREE.Color(0, 0, 0);
                     obj['children'][9]['material'].color = new THREE.Color(0, 0, 0);
                     obj['children'][10]['material'].color = new THREE.Color(0, 0, 0);
@@ -701,6 +732,7 @@
                 },
                 complete: function () {
                     // progressLabel.text("complete！");
+                    $('.Main').show();
                 }
             });
         }
@@ -777,9 +809,10 @@
             if (selected == 2 && orientation == 'right' && completechange && tempstatus) {//页面3
                 changemat = 0;
                 //            pagename("url('imgs/third_pagename_1.png')", "url('imgs/first_move_2.png')");
+                $('.thirdhelp').show();
                 pagename("url('/static/imgs/new/third_introduce.png')");
-                camera.position.y = 185;//相机Y坐标为100
-                camera.position.z = 197;//相机Z坐标为300
+                camera.position.y = 265;//相机Y坐标为100
+                camera.position.z = 0;//相机Z坐标为300
                 camera.position.x = 0;
                 controls.target = new THREE.Vector3();
                 $(".Select:eq(0)").removeClass('Selected');
@@ -931,9 +964,10 @@
             }
             if (selected == 4 && orientation == 'left' && completechange && tempstatus) {//页面3
                 //            pagename("url('imgs/third_pagename_1.png')", "url('imgs/first_move_2.png')");
+                $('.thirdhelp').show();
                 pagename("url('/static/imgs/new/third_introduce.png')");
-                camera.position.y = 185;//相机Y坐标为100
-                camera.position.z = 197;//相机Z坐标为300
+                camera.position.y = 265;//相机Y坐标为100
+                camera.position.z = 0;//相机Z坐标为300
                 camera.position.x = 0;
                 controls.target = new THREE.Vector3();
                 clearhouse();
@@ -1004,7 +1038,7 @@
                     completechange = false;
 
                     for (var v1 in materialsnames['default']) {
-                        console.log(materialsnames['default'][v1])
+                        // console.log(materialsnames['default'][v1])
                         texture['materials'][materialsnames['default'][v1]].transparent = false;
                     }
                     obj['children'][7].visible = true;
@@ -1123,7 +1157,7 @@
                 //            texture['materials'][tempmaterials[6]].opacity = 0.5;
                 controls.enabled = true;
                 completechange = true;
-                console.log(texture);
+                // console.log(texture);
                 clearInterval(materialtimeout);
 
             }
@@ -1224,7 +1258,7 @@
 
                 movingtargetcamera(point[0], 0); 
 
-                obj['children'][13].visible = true;
+                obj['children'][9].visible = true;
                 var index = 1;
                 var end = parseInt(point.length) - 1;
                 var timeoutZong = setInterval(function () {
@@ -1232,7 +1266,7 @@
                         if (i == index) {
                             //                        console.log(index);
                             if (index == 1) {
-                                obj['children'][14].visible = true;
+                                obj['children'][10].visible = true;
                             }
                             if (index !== end && audioID !== '' && audioID) {
                                 //                            $(audioID + '_' + i)[0].play();//第五个点没有声音
@@ -1244,8 +1278,8 @@
                     //户型亮点循环一边
                     if (index >= point.length) {
                         if (index == point.length) {
-                            obj['children'][14].visible = false;
-                            obj['children'][13].visible = false;
+                            obj['children'][10].visible = false;
+                            obj['children'][9].visible = false;
                             // $('.LightImage').css('background-image', "url('imgs/light" + index + ".png')");
                             $('.LightImage').hide();
                             $('#dingshitu').css('background-image', "url('/static/imgs/new/second_bright_up.png')");
@@ -1505,7 +1539,7 @@
                 });
             }
         }
-        function patten(params) {
+        function patten() {
             // pattern="^1[0-9]{10}$"
             var patten = new RegExp(/[0-9]/)
             if (!patten.test($('#phone').val())) {
@@ -1518,6 +1552,19 @@
             result = result.replace(/\s/g, "");
             return result;
         }
+        // var temptimeout;
+        // function shonotice() {
+        //     if(!tempstatus){
+        //         $('.notice').show();
+        //         console.log(temptimeout==undefined);
+        //         if(temptimeout==undefined){
+        //             setTimeout(function(){
+        //             $('.notice').hide();
+        //         },3000);
+        //         }
+                
+        //     }
+        // }
 
     </script>
 </body>

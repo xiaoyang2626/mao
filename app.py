@@ -19,11 +19,12 @@ app = Flask(__name__)
 app.config['DEBUG'] = True
 app.secret_key = os.urandom(12)
 
-
+@app.route('/',methods=['GET'])
+def K():
+    return render_template('K_113.html')
 #进入首页
 @app.route('/VR/<name>', methods=['GET'])
 def home(name=None):
-    print(name=='A1_142')
     if name==None:
         return render_template('K_113.html')
     elif name=='K_113':
