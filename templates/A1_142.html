@@ -574,6 +574,7 @@
         initProgressbar();//初始化进度条
         init();//初始化模型状态
         animate();//实时更新模型状态
+        var temptimeout;
         $('.Main').on('touchstart',function(){
             if(!tempstatus){
                 $('.notice').show();
@@ -1566,7 +1567,7 @@
             result = result.replace(/\s/g, "");
             return result;
         }
-        // var temptimeout;
+        
         // function shonotice() {
         //     if(!tempstatus){
         //         $('.notice').show();
