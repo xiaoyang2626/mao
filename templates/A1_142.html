@@ -372,7 +372,7 @@
         </div>
     </div>
     <div class="Help" onclick="disshowhelp()"></div>
-    <div class="thirdhelp" onclick=" $('.thirdhelp').hide();"></div>
+    <div class="thirdhelp" ></div>
     <div class="notice"></div>
     <div class="Main"  >
         <!--主界面-->
@@ -584,7 +584,13 @@
                 },3000);
                 }                
             }
-        })
+        });
+        $('.thirdhelp').on('touchstart',function(){
+            
+                $('.thirdhelp').hide();
+                            
+            
+        });
         //初始化模型
         function init() {
             //声明画板
@@ -1127,7 +1133,7 @@
                         }
                         if (direction1 == 'up') {
                             plane1.constant -= 1;
-                            if (plane1.constant <= 10) {
+                            if (plane1.constant <= 11) {
                                 $('#plane1').css('background-image', "url('/static/imgs/new/first_clipping_down.png')");
                                 direction1 = 'down';
                                 clearInterval(planetimeout1);
@@ -1459,7 +1465,7 @@
                             $('#plane').css('background-image', "url('/static/imgs/new/first_clipping_down.png')");
                             $('#plane1').css('background-image', "url('/static/imgs/new/first_clipping_up.png')");
                             direction = 'down';
-                            changestatus = false;
+                            changestatus = false;                            
                             clearInterval(planetimeout);
                         }
                     }
