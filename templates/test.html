@@ -16,10 +16,10 @@
     <script src="/static/js/OrbitControls.js"></script>
     <!--JQuery框架-->
     <script src="/static/js/jquery-3.2.1.min.js"></script>
-    <!--自适应框架-->
-    <!--<script src="js/bootstrap.js"></script>-->
     <!--threejs obj载入库-->
     <script src="/static/js/OBJLoader.js"></script>
+    <script src="/static/js/LoaderSupport.js"></script>
+    <script src="/static/js/OBJLoader2.js"></script>
     <!--threejs状态栏库-->
     <!--<script src="js/stats.min.js"></script>-->
     <!--threejs mtl载入库-->
@@ -131,7 +131,8 @@
             background-position: center;
             background-color: transparent;
         }
-        #pic{
+
+        #pic {
             margin-top: 44%;
             margin-left: 9%;
             width: 82.03%;
@@ -141,6 +142,7 @@
             background-repeat: no-repeat;
             background-position: center;
         }
+
         .pictures>li {
             /* float: left; */
             /* width: 33.3%;
@@ -333,26 +335,27 @@
                 console.log('error');
             };
             //载入模型与材质
-            var mtlLoader = new THREE.MTLLoader();
-            mtlLoader.setPath('/static/A1_142/');//mtl路径
-            mtlLoader.load('A1_142.mtl', function (materials) {//载入mtl路径的哪个mtl文件
-                materials.preload();//载入物料
-                texture = materials;//将导入物料传给程序集变量
-                console.log(materials);
-                var objLoader = new THREE.OBJLoader();//声明obj载入对象
-                objLoader.setMaterials(materials);//给obj模型设置物料
-                objLoader.setPath('/static/A1_142/');//设置obj所在路径
-                objLoader.load('A1_142.obj', function (object) {//载入obj
-                    scene.add(object);//将obj添加到画板
-                    obj = object;//将模型赋值程序集变量obj
-                    console.log(obj);//调试输出模型
-                    obj.scale.x = 2;//模型X轴缩放系数
-                    obj.scale.y = 2;//模型Y轴缩放系数
-                    obj.scale.z = 2;//模型Z轴缩放系数
-                    showMaterial('default');
-                    optimeout = setInterval(opacity, 100);//首页渐变
-                }, onProgress, onError);
-            });
+            useAsyncObjMtl('/static/A1_142/', 'A1_142.obj', 'A1_142.mtl');
+            // var mtlLoader = new THREE.MTLLoader();
+            // mtlLoader.setPath('/static/A1_142/');//mtl路径
+            // mtlLoader.load('A1_142.mtl', function (materials) {//载入mtl路径的哪个mtl文件
+            //     materials.preload();//载入物料
+            //     texture = materials;//将导入物料传给程序集变量
+            //     console.log(materials);
+            //     var objLoader = new THREE.OBJLoader();//声明obj载入对象
+            //     objLoader.setMaterials(materials);//给obj模型设置物料
+            //     objLoader.setPath('/static/A1_142/');//设置obj所在路径
+            //     objLoader.load('A1_142.obj', function (object) {//载入obj
+            //         scene.add(object);//将obj添加到画板
+            //         obj = object;//将模型赋值程序集变量obj
+            //         console.log(obj);//调试输出模型
+            //         obj.scale.x = 2;//模型X轴缩放系数
+            //         obj.scale.y = 2;//模型Y轴缩放系数
+            //         obj.scale.z = 2;//模型Z轴缩放系数
+            //         showMaterial('default');
+            //         optimeout = setInterval(opacity, 100);//首页渐变
+            //     }, onProgress, onError);
+            // });
             //        stats = new Stats();
             //        stats.showPanel(2);
             //        containner.appendChild(stats.dom);
@@ -494,6 +497,18 @@
         // 隐藏指定obj
         function hideObj(object) {
             object.visible = false;
+        }
+        function useAsyncObjMtl(url, objname, mtlname) {
+            var objLoader2 = new THREE.OBJLoader2();
+            objLoader2.loadMtl(url + mtlname, null, function (material) {
+                objLoader2.setModelName(objname);
+                objLoader2.setMaterials(material);
+                objLoader2.terminateWorkerOnLoad = false;
+                objLoader2.load(url + objname, function (event) {
+                    objLoader2.workerSupport.setTerminateRequested(true);
+                    scene.add(event.detail.loaderRootNode);
+                }, null, null, null, true);
+            });
         }
         //-----------------------------------------------------以上是模型类-------------------------------------------------------------------
         //相机切换到顶视图(平面图)
