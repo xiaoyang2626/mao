@@ -84,16 +84,18 @@
             z-index: 20;
             position: absolute;
         }
-        .thirdhelp{
+
+        .thirdhelp {
             background-image: url("/static/imgs/B1_142/third_remind.png");
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
             opacity: 0.7;
-            display:none;
+            display: none;
             z-index: 18;
             position: absolute;
         }
+
         /*主界面样式*/
 
         .Main {
@@ -105,14 +107,15 @@
             /*如果是绝对定位会盖住模型*/
             z-index: 15;
         }
-        .notice{
+
+        .notice {
             background-image: url("/static/imgs/new/second_remind.png");
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
             display: none;
             z-index: 17;
-            position:absolute;
+            position: absolute;
         }
 
         .LightImage {
@@ -376,11 +379,11 @@
         </div>
     </div>
     <div class="Help" onclick="disshowhelp()"></div>
-    <div class="thirdhelp" ></div>
+    <div class="thirdhelp"></div>
     <div class="notice"></div>
-    <div class="Main"  >
+    <div class="Main">
         <!--主界面-->
-        
+
         <div id="house_1" class="house" style="background-image: url('/static/imgs/B1_142/forth_house_2.png');"></div>
         <div id="house_2" class="house" style="background-image: url('/static/imgs/B1_142/forth_house_3.png');"></div>
         <!-- <div id="house_3" class="house" style="background-image: url('/static/imgs/B1_142/forth_house_4.png');"></div> -->
@@ -478,7 +481,7 @@
 
         </div>
     </div>
-    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://");document.write(unescape("%3Cspan style='display:none;' id='cnzz_stat_icon_1273038767'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1273038767%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
+    <script type="text/javascript">var cnzz_protocol = (("https:" == document.location.protocol) ? " https://" : " http://"); document.write(unescape("%3Cspan style='display:none;' id='cnzz_stat_icon_1273038767'%3E%3C/span%3E%3Cscript src='" + cnzz_protocol + "s22.cnzz.com/z_stat.php%3Fid%3D1273038767%26show%3Dpic1' type='text/javascript'%3E%3C/script%3E"));</script>
     <script type="text/javascript">
         //    var stats;//状态栏
         var containner;//绘制层
@@ -495,9 +498,9 @@
         var plane//plane块
         var modify = 1;
         var materialsnames = {
-            'default': ['1_jiaju_1', '1_jiaju_2', '1_jiaju_3', '1_qiangti','1_jiaju_4'],
-            '4_2': ['2_jiaju_1', '2_jiaju_2', '2_jiaju_3','2_jiaju_4', '2_qiangti'],
-            '4_1': ['1_jiaju_1', '1_jaiju_2', '1_jiaju_3', '1_qiangti','1_jiaju_4']
+            'default': ['1_jiaju_1', '1_jiaju_2', '1_jiaju_3', '1_qiangti', '1_jiaju_4'],
+            '4_2': ['2_jiaju_1', '2_jiaju_2', '2_jiaju_3', '2_jiaju_4', '2_qiangti'],
+            '4_1': ['1_jiaju_1', '1_jaiju_2', '1_jiaju_3', '1_qiangti', '1_jiaju_4']
         };
         var point = {
             //        'default': [{
@@ -544,7 +547,7 @@
             {
                 'control': new THREE.Vector3(40, 0, 28),
                 'camera': new THREE.Vector3(40, 122, 67)
-            },         
+            },
             {
                 'control': new THREE.Vector3(0, 0, 0),
                 'camera': new THREE.Vector3(0, 265, 0)
@@ -552,7 +555,7 @@
             ]
         };
         var material = ['1_jiaju_1', '1_jiaju_2', '1_jiaju_3', '1_qiangti',
-            '2_jiaju_1', '2_jiaju_2', '2_jiaju_3', '2_qiangti','1_jiaju_4','2_jiaju_4','size_1','size_2','size_3'
+            '2_jiaju_1', '2_jiaju_2', '2_jiaju_3', '2_qiangti', '1_jiaju_4', '2_jiaju_4'
         ];
         initProgressbar();//初始化进度条
         var selected = 1;//当前被选中的功能区页
@@ -575,21 +578,21 @@
         init();//初始化模型状态
         animate();//实时更新模型状态
         var temptimeout;
-        $('.Main').on('touchstart',function(){
-            if(!tempstatus){
+        $('.Main').on('touchstart', function () {
+            if (!tempstatus) {
                 $('.notice').show();
-                if(temptimeout==undefined){
-                    setTimeout(function(){
-                    $('.notice').hide();
-                },3000);
-                }                
+                if (temptimeout == undefined) {
+                    setTimeout(function () {
+                        $('.notice').hide();
+                    }, 3000);
+                }
             }
         });
-        $('.thirdhelp').on('touchstart',function(){
-            
-                $('.thirdhelp').hide();
-                            
-            
+        $('.thirdhelp').on('touchstart', function () {
+
+            $('.thirdhelp').hide();
+
+
         });
         //初始化模型
         function init() {
@@ -600,7 +603,7 @@
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, (window.innerHeight - 5) * 0.9);
             renderer.localClippingEnabled = true;//开启clipping
-            
+
             //声明绘制层
             containner = document.createElement('div');
             containner.style.paddingTop = $(window).height() * 0.1 + 'px';
@@ -706,10 +709,10 @@
         }
 
         function animate() {//动画更新函数
-            console.log('----------controls---------');
-            console.log(controls.target);
-            console.log('==========camera===========');
-            console.log(camera.position);
+            // console.log('----------controls---------');
+            // console.log(controls.target);
+            // console.log('==========camera===========');
+            // console.log(camera.position);
             requestAnimationFrame(animate);
             controls.update();
             //        stats.update();
@@ -922,7 +925,7 @@
                 //            buttonmove = 0;
                 camera.position.y = 265;//相机Y坐标为100
                 camera.position.z = 0;//相机Z坐标为300
-                
+
                 controls.target = new THREE.Vector3();
                 $(".Select:eq(0)").removeClass('Selected');
                 $(".Select:eq(1)").addClass('Selected');
@@ -1164,7 +1167,7 @@
             for (var v in tempmaterials) {
                 texture['materials'][tempmaterials[v]].opacity = texture['materials'][tempmaterials[v]].opacity + 0.1;
             }
-     
+
             var stopopacity = texture['materials'][tempmaterials[tempmaterials.length - 1]].opacity;
 
             if (stopopacity >= 1) {
@@ -1274,7 +1277,7 @@
                 }
 
 
-                movingtargetcamera(point[0], 0); 
+                movingtargetcamera(point[0], 0);
 
                 obj['children'][11].visible = true;
                 var index = 1;
@@ -1282,16 +1285,14 @@
                 var timeoutZong = setInterval(function () {
                     for (var i = 1; i < point.length; i++) {
                         if (i == index) {
-                            
                             //                        console.log(index);
                             if (index == 1) {
                                 obj['children'][11].visible = false;
-                                obj['children'][10].visible = true;
-                            }
-                            if (index ==2) {
-                                //                            $(audioID + '_' + i)[0].play();//第五个点没有声音
-                                obj['children'][11].visible = false;
                                 obj['children'][10].visible = false;
+                            }
+                            if (index == 6) {
+                                obj['children'][11].visible = false;
+                                obj['children'][10].visible = true;
                             }
 
                             movingtargetcamera(point[i], index);
@@ -1300,7 +1301,8 @@
                     //户型亮点循环一边
                     if (index >= point.length) {
                         if (index == point.length) {
-                            
+                            obj['children'][11].visible = false;
+                            obj['children'][10].visible = false;
                             // $('.LightImage').css('background-image', "url('imgs/light" + index + ".png')");
                             $('.LightImage').hide();
                             $('#dingshitu').css('background-image', "url('/static/imgs/new/second_bright_up.png')");
@@ -1465,7 +1467,7 @@
                             $('#plane').css('background-image', "url('/static/imgs/new/first_clipping_down.png')");
                             $('#plane1').css('background-image', "url('/static/imgs/new/first_clipping_up.png')");
                             direction = 'down';
-                            changestatus = false;                            
+                            changestatus = false;
                             clearInterval(planetimeout);
                         }
                     }
@@ -1573,7 +1575,7 @@
             result = result.replace(/\s/g, "");
             return result;
         }
-        
+
         // function shonotice() {
         //     if(!tempstatus){
         //         $('.notice').show();
@@ -1583,7 +1585,7 @@
         //             $('.notice').hide();
         //         },3000);
         //         }
-                
+
         //     }
         // }
 
