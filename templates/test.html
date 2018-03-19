@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
     <!--自适应框架CSS-->
     <!--<link rel="stylesheet" href="css/bootstrap.css">-->
+    <!--图片预览 viewer CSS库-->
+    <link rel="stylesheet" href="/static/css/viewer.min.css">
     <!--JQueryUI CSS库-->
     <link rel="stylesheet" href="/static/css/jquery-ui.min.css">
     <!--threejs库-->
@@ -24,6 +26,8 @@
     <script src="/static/js/MTLLoader.js"></script>
     <!--JQueryUI库-->
     <script src="/static/js/jquery-ui.min.js"></script>
+    <!--图片预览viewer库-->
+    <script src="/static/js/viewer.min.js"></script>
     <title>格调松间113户型</title>
     <style>
         * {
@@ -92,6 +96,7 @@
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
+            /* background-color: black; */
             /*position: absolute;*/
             /*如果是绝对定位会盖住模型*/
             z-index: 15;
@@ -101,7 +106,7 @@
             width: 100%;
             position: absolute;
             bottom: 1px;
-            height: 25.7%;
+            height: 40%;
             text-align: center;
             /*z-index: 7;*/
         }
@@ -112,7 +117,7 @@
             display: flex;
             flex-direction: row;
             box-sizing: border-box;
-            padding: 10% 10%;
+            padding: 1% 10%;
             justify-content: space-between;
             position: absolute;
         }
@@ -125,6 +130,30 @@
             background-repeat: no-repeat;
             background-position: center;
             background-color: transparent;
+        }
+        #pic{
+            margin-top: 44%;
+            margin-left: 9%;
+            width: 82.03%;
+            height: 52.82%;
+            position: absolute;
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        .pictures>li {
+            /* float: left; */
+            /* width: 33.3%;
+            height: 33.3%; */
+            /* margin: 0 -1px -1px 0;
+            border: 1px solid transparent; */
+            overflow: hidden;
+        }
+
+        .pictures>li>img {
+            width: 100%;
+            /* cursor: -webkit-zoom-in;
+            cursor: zoom-in; */
         }
     </style>
     <!--<script type="text/javascript">-->
@@ -148,6 +177,13 @@
     <div class="Main">
         <!--户型简介标签-->
         <!--<div id="move2" class="TypeSynopsisTableDetail"></div>&lt;!&ndash;户型简介详细标签&ndash;&gt;-->
+        <div id="pic">
+            <ul class="pictures">
+                <li>
+                    <img data-original="/static/imgs/K_113/forth_house_2.png" src="/static/imgs/K_113/forth_house_2.png" alt='4_2'>
+                </li>
+            </ul>
+        </div>
         <!--模型层-->
         <div id="model"></div>
         <div class="Fun">
@@ -156,10 +192,17 @@
                 <button class="Button" type="button" style="background-image: url('/static/imgs/new/first_clipping_up.png')" onclick="changePlane()"></button>
                 <button class="Button" type="button" onclick="showSize('size')">显示整体尺寸</button>
                 <button class="Button" type="button" onclick="hideSize('size')">隐藏整体尺寸</button>
+
+            </div>
+            <div class="Row" style="padding-top:20%">
+                <button class="Button" type="button" onclick="hideObj()">隐藏obj</button>
+                <button class="Button" type="button" onclick="removeEntity()">移除obj</button>
                 <button class="Button" type="button" onclick="showMaterial('default')">default材质贴图</button>
                 <button class="Button" type="button" onclick="showMaterial('first')">first材质贴图</button>
-                <button class="Button" type="button" onclick="videomaterialmoving(point['default'])">移动</button>
+                <button class="Button" type="button" onclick="hideMaterial('default')">隐藏default材质贴图</button>
             </div>
+
+
         </div>
 
     </div>
@@ -179,7 +222,7 @@
         var obj;//模型
         var plane//plane块
         var materialsnames = {
-            'default': ['1_jiaju_1', '1_jiaju_2', '1_jiaju_3', '1_qiangti'],
+            'default': ['1_jiaju_1', '1_jiaju_2', '1_jiaju_3', '1_jiaju_4', '1_qiangti'],
             'first': ['2_jiaju_1', '2_jiaju_2', '2_jiaju_3', '2_qiangti'],
         };
         var point = {
@@ -230,6 +273,7 @@
         initProgressbar();//初始化进度条
         init();//初始化模型状态
         animate();//实时更新模型状态
+        images();
         //初始化模型
         function init() {
             //声明画板
@@ -241,8 +285,8 @@
             renderer.localClippingEnabled = true;//开启clipping
             //声明绘制层
             containner = document.createElement('div');
-            containner.style.paddingTop = $(window).height() * 0.1 + 'px';
-            //        containner.style.height = 100%;
+            // containner.style.paddingTop = $(window).height() * 0.1 + 'px';
+            containner.style.height = $(window).height();
             //将绘制层添加到模型层
             $('#model').append(containner);
             //设置模型层高度
@@ -363,13 +407,35 @@
                 }
             });
         }
+        //图片预览
+        function images() {
+            var galley = document.getElementById('pic');
+            var viewer = new Viewer(galley, {
+                url: 'data-original',
+                toolbar: false,
+                button: false,
+                navbar: false,
+                movable: false,
+            });
+        }
 
         //----------------------------------分割线以下是功能函数------------------------------------------------
         var changeMaterialTimeout;//变换材质贴图时钟
-        //显示指定材质贴图
+        //显示指定材质贴图并将它们赋予plane
         function showMaterial(materialname) {
             clearMaterials();
             var materials = materialsnames[materialname]
+            for (var i in materials) {
+                texture['materials'][materials[i]].transparent = false;
+                texture['materials'][materials[i]].opacity = 1;
+                texture['materials'][materials[i]]['clippingPlanes'] = [plane];
+                texture['materials'][materials[i]]['clipShadows'] = true;
+            }
+        }
+        //渐变显示指定材质贴图并将它们赋予plane
+        function gradualMaterial(materialname) {
+            clearMaterials();
+            var materials = materialsnames[materialname];
             for (var i in materials) {
                 texture['materials'][materials[i]].transparent = false;
                 texture['materials'][materials[i]]['clippingPlanes'] = [plane];
@@ -383,17 +449,25 @@
                     changeMaterialTimeout = setInterval("showtimeMaterial(materialsnames['first'])", 100);
                     break;
             }
-
+        }
+        function hideMaterial(materialname) {
+            var materials = materialsnames[materialname];
+            for (var i in materials) {
+                texture['materials'][materials[i]].transparent = true;
+                texture['materials'][materials[i]].opacity = 0;
+            }
         }
         //清空所有材质贴图
         function clearMaterials() {
+            // 隐藏所有材质贴图
             for (var i in material) {
                 texture['materials'][material[i]].transparent = true;
                 texture['materials'][material[i]].opacity = 0;
             }
+            //隐藏所有尺寸
             for (var i1 in obj['children']) {
                 // console.log(obj['children'][i1].name in {'size':'', 'size_1':'', 'size_2':''});
-                // console.log(['size', 'size_1', 'size_2'].indexOf(obj['children'][i1].name))
+                // console.log(['size', 'size_1', 'size_2'].indexOf('size'))//输出0
                 if (['size', 'size_1', 'size_2'].indexOf(obj['children'][i1].name) != -1) {
                     obj['children'][i1].visible = false;
                 }
@@ -411,6 +485,17 @@
             }
 
         }
+        // 清除指定obj
+        function removeEntity(object) {
+            var selectedObject = scene.getObjectByName(object.name);
+            scene.remove(selectedObject);
+            animate();
+        }
+        // 隐藏指定obj
+        function hideObj(object) {
+            object.visible = false;
+        }
+        //-----------------------------------------------------以上是模型类-------------------------------------------------------------------
         //相机切换到顶视图(平面图)
         function topview() {
             controls.autoRotate = false;
@@ -442,6 +527,7 @@
                     planetimeout = setInterval(function () {
                         plane.constant -= 1;
                         if (plane.constant <= 11) {
+                            plane.constant = 11;
                             clearInterval(planetimeout);
                         }
                     }, 10);
@@ -450,13 +536,14 @@
                     planetimeout = setInterval(function () {
                         plane.constant += 1;
                         if (plane.constant >= 36) {
+                            plane.constant = 36;
                             clearInterval(planetimeout);
                         }
                     }, 10);
             }
         }
 
-       
+
 
 
 
