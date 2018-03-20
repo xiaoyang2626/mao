@@ -538,7 +538,7 @@
             },
             {
                 'control': new THREE.Vector3(-49, -17, 28),
-                'camera': new THREE.Vector3(-14, 92, 43)
+                'camera': new THREE.Vector3(-49, 92, 43)
             },
             {
                 'control': new THREE.Vector3(44, 0, -33),
@@ -661,6 +661,37 @@
                 console.log('error');
             };
             //载入模型与材质
+
+            // var textureLoader = new THREE.TextureLoader();
+            // var textureEquirec;
+            // textureEquirec = textureLoader.load("/static/imgs/2294472375_24a3b8ef46_o.jpg");
+            // textureEquirec.mapping = THREE.EquirectangularReflectionMapping;
+            // // textureEquirec.magFilter = THREE.LinearFilter;
+            // // textureEquirec.minFilter = THREE.LinearMipMapLinearFilter;
+            // textureEquirec.anisotropy = 4;
+
+            // var loader = new THREE.OBJLoader();
+            // loader.load('/static/B1_142/B1_142.obj', function (object) {
+
+            //     object.traverse( function ( child ) {
+
+            //     	if ( child instanceof THREE.Mesh ) {
+
+            //     		child.material.envMap = textureEquirec;
+
+            //     	}
+
+            //     }                    
+            //      );
+            //     // object['children'][12]['material']['envMap'] = textureEquirec;
+            //     object.scale.x = 2;//模型X轴缩放系数
+            //     object.scale.y = 2;//模型Y轴缩放系数
+            //     object.scale.z = 2;//模型Z轴缩放系数
+            //     // object.position.y = - 95;
+            //     scene.add(object);
+            //     console.log(object);
+            //     optimeout = setInterval(opacity, 100);//首页渐变
+            // }, onProgress, onError);
             var mtlLoader = new THREE.MTLLoader();
             mtlLoader.setPath('/static/B1_142/');//mtl路径
             mtlLoader.load('B1_142.mtl', function (materials) {//载入mtl路径的哪个mtl文件
@@ -679,6 +710,17 @@
                 objLoader.load('B1_142.obj', function (object) {//载入obj
                     scene.add(object);//将obj添加到画板
                     obj = object;//将模型赋值程序集变量obj
+                    // object.traverse(function (child) {
+
+                    //     if (child instanceof THREE.Mesh) {
+
+                    //         child.material.envMap = textureEquirec;
+                    //         child.material.needsUpdate=true;
+
+                    //     }
+
+                    // }
+                    // );
                     console.log(obj);//调试输出模型
                     obj.scale.x = 2;//模型X轴缩放系数
                     obj.scale.y = 2;//模型Y轴缩放系数
@@ -692,6 +734,7 @@
                     buttontime = 1;//当前时间按钮选中位置
                     //                    $('#keting').css('background-image', "url('imgs/second_ke_down.png')");//默认客厅按钮选中
                     //                    isAlltouming(false);
+
                     showMaterials('default');
                     optimeout = setInterval(opacity, 100);//首页渐变
                 }, onProgress, onError);
