@@ -34,7 +34,7 @@
         /*加载界面样式*/
 
         #Loading {
-            background-image: url('/static/imgs/B1_142/loading.jpg');
+            background-image: url('/static/imgs/H1_133/loading.jpg');
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
@@ -86,7 +86,7 @@
         }
 
         .thirdhelp {
-            background-image: url("/static/imgs/B1_142/third_remind.png");
+            background-image: url("/static/imgs/H1_133/third_remind.png");
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
@@ -99,7 +99,7 @@
         /*主界面样式*/
 
         .Main {
-            background-image: url("/static/imgs/B1_142/main_background.jpg");
+            background-image: url("/static/imgs/H1_133/main_background.jpg");
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
@@ -119,7 +119,7 @@
         }
 
         .LightImage {
-            background-image: url("/static/imgs/B1_142/light0.png");
+            background-image: url("/static/imgs/H1_133/light0.png");
             height: 100%;
             width: 100%;
             background-size: 100% 100%;
@@ -143,7 +143,7 @@
         /*户型简介*/
 
         .TypeSynopsis {
-            background-image: url("/static/imgs/B1_142/first_introduce.png");
+            background-image: url("/static/imgs/H1_133/first_introduce.png");
             height: 15.56%;
             top: 11.29%;
             width: 63.5%;
@@ -384,9 +384,9 @@
     <div class="Main">
         <!--主界面-->
 
-        <div id="house_1" class="house" style="background-image: url('/static/imgs/B1_142/forth_house_2.png');"></div>
-        <div id="house_2" class="house" style="background-image: url('/static/imgs/B1_142/forth_house_3.png');"></div>
-        <!-- <div id="house_3" class="house" style="background-image: url('/static/imgs/B1_142/forth_house_4.png');"></div> -->
+        <div id="house_1" class="house" style="background-image: url('/static/imgs/H1_133/forth_house_2.png');"></div>
+        <div id="house_2" class="house" style="background-image: url('/static/imgs/H1_133/forth_house_3.png');"></div>
+        <!-- <div id="house_3" class="house" style="background-image: url('/static/imgs/H1_133/forth_house_4.png');"></div> -->
         <div id="success" class="house" style="background-image: url('/static/imgs/new/submit_back.png');"></div>
         <div id="question"></div>
         <!--问题图片-->
@@ -435,7 +435,7 @@
                     <!--改变Plane-->
                 </div>
                 <div class="Row " id="timebutton" style="display: none">
-                    <audio id="moveaudio" preload="auto" src="/static/audio/B1_142.mp3"></audio>
+                    <audio id="moveaudio" preload="auto" src="/static/audio/H1_133.mp3"></audio>
                     <!--<audio id="moveaudio_1" preload="auto" src="audio/new/2.mp3"></audio>-->
                     <!--<audio id="moveaudio_2" preload="auto" src="audio/new/3.mp3"></audio>-->
                     <!--<audio id="moveaudio_3" preload="auto" src="audio/new/4.mp3"></audio>-->
@@ -525,29 +525,26 @@
             //            }
             //        ]
             'default': [{
-                'control': new THREE.Vector3(-12, -1, 5),
-                'camera': new THREE.Vector3(-12, 175, 58)
+                'control': new THREE.Vector3(-29, -3, 7),
+                'camera': new THREE.Vector3(-29, 239, 143)
             },
             {
-                'control': new THREE.Vector3(17, 2, -22),
-                'camera': new THREE.Vector3(17, 102, -19)
+                'control': new THREE.Vector3(-8, -25, -63),
+                'camera': new THREE.Vector3(-8, 149, 86)
             },
             {
-                'control': new THREE.Vector3(-33, 3, -29),
-                'camera': new THREE.Vector3(-14, 100, -16)
+                'control': new THREE.Vector3(49, -25, 39),
+                'camera': new THREE.Vector3(49, 177, 65)
             },
             {
-                'control': new THREE.Vector3(-49, -17, 28),
-                'camera': new THREE.Vector3(-49, 92, 43)
+                'control': new THREE.Vector3(24, -10, -41),
+                'camera': new THREE.Vector3(24, 163, -22)
             },
             {
-                'control': new THREE.Vector3(44, 0, -33),
-                'camera': new THREE.Vector3(24, 94, -8)
+                'control': new THREE.Vector3(-12, -14, -46),
+                'camera': new THREE.Vector3(-12, 168, -23)
             },
-            {
-                'control': new THREE.Vector3(40, 0, 28),
-                'camera': new THREE.Vector3(40, 122, 67)
-            },
+
             {
                 'control': new THREE.Vector3(0, 0, 0),
                 'camera': new THREE.Vector3(0, 265, 0)
@@ -671,7 +668,7 @@
             // textureEquirec.anisotropy = 4;
 
             // var loader = new THREE.OBJLoader();
-            // loader.load('/static/B1_142/B1_142.obj', function (object) {
+            // loader.load('/static/H1_133/H1_133.obj', function (object) {
 
             //     object.traverse( function ( child ) {
 
@@ -780,7 +777,7 @@
                 clearInterval(optimeout);//清除渐变时钟
                 $('#Loading').hide();//loading页面隐藏
                 //初始化户型简介 以及户型简介详细标签
-                pagename("url('/static/imgs/B1_142/first_introduce.png')");
+                pagename("url('/static/imgs/H1_133/first_introduce.png')");
             }
         }
 
@@ -805,7 +802,7 @@
         function select(orientation) {//切换功能区页   orientation为切换方向
             if (selected == 1 && orientation == 'right' && completechange && tempstatus) {//页面2
                 //            pagename("url('imgs/second_pagename_1.png')", "url('imgs/first_move_2.png')");
-                pagename("url('/static/imgs/B1_142/second_introduce.png')");
+                pagename("url('/static/imgs/H1_133/second_introduce.png')");
                 controls.target = new THREE.Vector3();
                 obj['children'][12].visible = false;//尺寸是否显示
                 plane.constant = 36;//还原Plane
@@ -874,7 +871,7 @@
                 changemat = 0;
                 //            pagename("url('imgs/third_pagename_1.png')", "url('imgs/first_move_2.png')");
                 $('.thirdhelp').show();
-                pagename("url('/static/imgs/B1_142/third_introduce.png')");
+                pagename("url('/static/imgs/H1_133/third_introduce.png')");
                 camera.position.y = 265;//相机Y坐标为100
                 camera.position.z = 0;//相机Z坐标为300
                 camera.position.x = 0;
@@ -906,7 +903,7 @@
             if (selected == 2 && orientation == 'left' && completechange && tempstatus) {//页面1
                 //            pagename("url('imgs/first_move_1.png')", "url('imgs/first_move_2.png')");
                 $('.TypeSynopsis').show();
-                pagename("url('/static/imgs/B1_142/first_introduce.png')");
+                pagename("url('/static/imgs/H1_133/first_introduce.png')");
                 camera.position.y = 185;//相机Y坐标为100
                 camera.position.z = 197;//相机Z坐标为300
                 camera.position.x = 0;
@@ -963,7 +960,7 @@
             }
             if (selected == 3 && orientation == 'left' && completechange && tempstatus) {//页面2
                 //            pagename("url('imgs/second_pagename_1.png')", "url('imgs/first_move_2.png')");
-                pagename("url('/static/imgs/B1_142/second_introduce.png')");
+                pagename("url('/static/imgs/H1_133/second_introduce.png')");
                 camera.position.x = 0;
                 //            buttonmove = 0;
                 camera.position.y = 265;//相机Y坐标为100
@@ -999,7 +996,7 @@
                 //            pagename("url('imgs/first_move_1.png')", "url('imgs/first_move_2.png')");
                 $('.TypeSynopsis').show();
                 clearhouse();
-                pagename("url('/static/imgs/B1_142/first_introduce.png')");
+                pagename("url('/static/imgs/H1_133/first_introduce.png')");
                 camera.position.y = 185;//相机Y坐标为100
                 camera.position.z = 197;//相机Z坐标为300
                 camera.position.x = 0;
@@ -1029,7 +1026,7 @@
             if (selected == 4 && orientation == 'left' && completechange && tempstatus) {//页面3
                 //            pagename("url('imgs/third_pagename_1.png')", "url('imgs/first_move_2.png')");
                 $('.thirdhelp').show();
-                pagename("url('/static/imgs/B1_142/third_introduce.png')");
+                pagename("url('/static/imgs/H1_133/third_introduce.png')");
                 camera.position.y = 265;//相机Y坐标为100
                 camera.position.z = 0;//相机Z坐标为300
                 camera.position.x = 0;
@@ -1423,7 +1420,7 @@
                 //            }
                 if (temptarget && tempcamera) {
                     if (number != null) {
-                        $('.LightImage').css('background-image', "url('/static/imgs/B1_142/light" + number + ".png')");
+                        $('.LightImage').css('background-image', "url('/static/imgs/H1_133/light" + number + ".png')");
                         $('.LightImage').show();
                     }
                     //                tempstatus = true;
