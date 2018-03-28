@@ -385,7 +385,7 @@
         <!--主界面-->
 
         <div id="house_1" class="house" style="background-image: url('/static/imgs/H1_133/forth_house_2.png');"></div>
-        <div id="house_2" class="house" style="background-image: url('/static/imgs/H1_133/forth_house_3.png');"></div>
+        <!-- <div id="house_2" class="house" style="background-image: url('/static/imgs/H1_133/forth_house_3.png');"></div> -->
         <!-- <div id="house_3" class="house" style="background-image: url('/static/imgs/H1_133/forth_house_4.png');"></div> -->
         <div id="success" class="house" style="background-image: url('/static/imgs/new/submit_back.png');"></div>
         <div id="question"></div>
@@ -1553,14 +1553,14 @@
                 modify = 2;
                 return;
             }
-            if (modify == 2) {
-                clearhouse();
-                $('#question').hide();
-                $('#modify').css('background-image', "url('/static/imgs/new/forth_no_up.png')");
-                $('#house_2').fadeIn(1000);
-                modify = 3;
-                return;
-            }
+            // if (modify == 2) {
+            //     clearhouse();
+            //     $('#question').hide();
+            //     $('#modify').css('background-image', "url('/static/imgs/new/forth_no_up.png')");
+            //     $('#house_2').fadeIn(1000);
+            //     modify = 3;
+            //     return;
+            // }
             // if (modify == 3) {
             //     clearhouse();
             //     $('#question').hide();
@@ -1569,7 +1569,7 @@
             //     modify = 4;
             //     return;
             // }
-            if (modify == 3) {
+            if (modify == 2) {
                 clearhouse();
                 satisfaction();
             }
