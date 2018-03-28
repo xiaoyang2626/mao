@@ -33,8 +33,8 @@ def home(name=None):
         return render_template('A1_142.html')
     elif name=='B1_142':
         return render_template('B1_142.html')
-    elif name=='H1':
-        return render_template('H1.html')
+    elif name=='H1_133':
+        return render_template('H1_133.html')
     elif name=='test':
         return render_template('test.html')
 
