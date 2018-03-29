@@ -525,20 +525,12 @@
             //            }
             //        ]
             'default': [{
-                'control': new THREE.Vector3(-25, -9, 27
-
-                ),
-                'camera': new THREE.Vector3(
-                    -25, 147, 84
-
-                )
+                'control': new THREE.Vector3(-25, -9, 27),
+                'camera': new THREE.Vector3(-25, 147, 84)
             },
             {
                 'control': new THREE.Vector3(-5, -13, 37),
-                'camera': new THREE.Vector3(-5, 135, 92
-
-
-                )
+                'camera': new THREE.Vector3(-5, 135, 92)
             },
             {
                 'control': new THREE.Vector3(36, -10, 28),
@@ -1144,6 +1136,7 @@
                     texture['materials']['2_jiaju_1']['clippingPlanes'] = [plane1];
                     texture['materials']['2_jiaju_2']['clippingPlanes'] = [plane1];
                     texture['materials']['2_jiaju_3']['clippingPlanes'] = [plane1];
+                    texture['materials']['2_jiaju_4']['clippingPlanes'] = [plane1];
                     texture['materials']['2_qiangti']['clipShadows'] = true;//设置plane阴影启用
 
                     plane1.constant = 36;
@@ -1191,7 +1184,7 @@
                         }
                         if (direction1 == 'up') {
                             plane1.constant -= 1;
-                            if (plane1.constant <= 11) {
+                            if (plane1.constant <= 9) {
                                 $('#plane1').css('background-image', "url('/static/imgs/new/first_clipping_down.png')");
                                 direction1 = 'down';
                                 clearInterval(planetimeout1);
@@ -1340,12 +1333,12 @@
                 var timeoutZong = setInterval(function () {
                     for (var i = 1; i < point.length; i++) {
                         if (i == index) {
-                            //                        console.log(index);
+                                                   console.log(index);
                             if (index == 1) {
                                 obj['children'][11].visible = false;
                                 obj['children'][10].visible = false;
                             }
-                            if (index == 6) {
+                            if (index == 5) {
                                 obj['children'][10].visible = false;
                                 obj['children'][11].visible = true;
                             }
@@ -1518,7 +1511,7 @@
                     }
                     if (direction == 'up') {
                         plane.constant -= 1;
-                        if (plane.constant <= 11) {
+                        if (plane.constant <= 9) {
                             $('#plane').css('background-image', "url('/static/imgs/new/first_clipping_down.png')");
                             $('#plane1').css('background-image', "url('/static/imgs/new/first_clipping_up.png')");
                             direction = 'down';
