@@ -27,7 +27,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	// How far you can dolly in and out ( PerspectiveCamera only )//缩放范围
 	this.minDistance = 50;
-	this.maxDistance = 200;
+	this.maxDistance = Infinity;
 
 	// How far you can zoom in and out ( OrthographicCamera only )
 	this.minZoom = 0;
@@ -36,7 +36,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	// How far you can orbit vertically, upper and lower limits.  上下旋转限制
 	// Range is 0 to Math.PI radians.
 	this.minPolarAngle = 0; // radians
-    this.maxPolarAngle = Math.PI/2; // radians
+    this.maxPolarAngle = Math.PI; // radians
 
 	// How far you can orbit horizontally, upper and lower limits.  左右旋转限制
 	// If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
@@ -63,7 +63,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 
 	// Set to true to automatically rotate around the target//是否启用自动旋转true为启用
 	// If auto-rotate is enabled, you must call controls.update() in your animation loop
-	this.autoRotate = true;
+	this.autoRotate = false;
 	this.autoRotateSpeed = 2.0; // 30 seconds per round when fps is 60
 
 	// Set to false to disable use of the keys//是否启用按键true为启用

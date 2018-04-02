@@ -37,6 +37,10 @@ def home(name=None):
         return render_template('H1_133.html')
     elif name=='test':
         return render_template('test.html')
+    elif name=='debug':
+        return render_template('debug.html')
+    elif name=='fbx':
+        return render_template('fbx.html')
 
 
 @app.route('/message', methods=['POST'])

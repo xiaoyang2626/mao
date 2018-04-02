@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--threejs库-->
+    <script src="/static/js/three.js"></script>
+    <!--FBX模型载入-->
+    <script src="/static/js/inflate.min.js"></script>
+    <script src="/static/js/FBXLoader.js"></script>
+    <!--threejs控制器库-->
+    <script src="/static/js/OrbitControls1.js"></script>
+    <!--JQuery框架-->
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+
+    <title>threejs-FBXTest</title>
+</head>
+
+<body>
+
+    <script type="text/javascript">
+        var containner;//绘制层
+        var scene;//画板
+        var camera;//相机
+        var controls;//控制器
+        var renderer;//渲染器
+        var light;
+        var clock = new THREE.Clock();
+        var mixers = [];
+        init();
+        animate();
+        function init() {
+            container = document.createElement('div');
+            document.body.appendChild(container);
+            //声明画板
+            scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xFFFFFF);
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+            camera.position.set(185, 197, 0);
+            //为相机添加控制器
+            controls = new THREE.OrbitControls(camera);
+            controls.update();
+            renderer = new THREE.WebGLRenderer();
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            container.appendChild(renderer.domElement);
+            //光线设置
+            var directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1.1);//定向光
+            //定向光位置设置
+            directionalLight.position.set(56, 75, -134);
+            //向画板中添加定向光
+            scene.add(directionalLight);
+            //第二个定向光
+            var light1 = new THREE.DirectionalLight(0xFFFFFF, 1.2);
+            light1.position.set(-75, 39, 75);
+            scene.add(light1);
+            //环境光
+            var light2 = new THREE.AmbientLight(0xFFFFFF);//环境光
+            //向画板添加环境光
+            scene.add(light2);
+            // ground
+            var mesh = new THREE.Mesh(new THREE.PlaneGeometry(2000, 2000), new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false }));
+            mesh.rotation.x = - Math.PI / 2;
+            mesh.receiveShadow = true;
+            scene.add(mesh);
+            var grid = new THREE.GridHelper(2000, 20, 0x000000, 0x000000);
+            grid.material.opacity = 0.2;
+            grid.material.transparent = true;
+            scene.add(grid);
+            var loader = new THREE.FBXLoader();
+            loader.load('/static/models/car/123.FBX', function (object) {                
+                object.mixer = new THREE.AnimationMixer(object);
+                mixers.push(object.mixer);
+                console.log(mixers);
+                var action = object.mixer.clipAction(object.animations[0]);
+                console.log(action);
+                action.play();
+                object.traverse(function (child) {
+                    if (child.isMesh) {
+                        child.castShadow = true;
+                        child.receiveShadow = true;
+                    }
+                });
+                console.log(object);
+                object.scale.x = 0.5;//模型X轴缩放系数
+                object.scale.y = 0.5;//模型Y轴缩放系数
+                object.scale.z = 0.5;//模型Z轴缩放系数
+                // object.position.z = 50;
+                start();
+                scene.add(object);
+            });
+            
+            window.addEventListener('resize', onWindowResize, false);
+
+        }
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        //
+        function animate() {
+            requestAnimationFrame(animate);
+            mixers[0].update();
+            renderer.render(scene, camera);
+            // stats.update();
+        }
+        function start() {
+            console.log(1);
+            if ( mixers.length > 0 ) {
+            	for ( var i = 0; i < mixers.length; i ++ ) {
+                    // console.log(clock.getDelta());
+                    mixers[ i ].update( clock.getDelta() );
+                    console.log(mixers);
+            	}
+            }
+        }
+        // function render() {//控制器改变事件
+
+        //     // if (controls.getState() != -1) {//如果用户操作
+        //     //     controls.autoRotate = false;//停止控制器自转
+        //     // }
+        //     renderer.render(scene, camera);
+        // }
+    </script>
+</body>
+
+</html>
