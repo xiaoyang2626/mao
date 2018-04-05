@@ -19,7 +19,7 @@
 </head>
 
 <body>
-
+<button onclick="pause()">pasue</button>
     <script type="text/javascript">
         var containner;//绘制层
         var scene;//画板
@@ -27,6 +27,7 @@
         var controls;//控制器
         var renderer;//渲染器
         var light;
+        var action;
         var clock = new THREE.Clock();
         var mixers = [];
         init();
@@ -70,13 +71,19 @@
             grid.material.transparent = true;
             scene.add(grid);
             var loader = new THREE.FBXLoader();
-            loader.load('/static/models/car/123.FBX', function (object) {                
+            loader.load('/static/models/car/123.FBX', function (object) {
                 object.mixer = new THREE.AnimationMixer(object);
+                object.mixer.time = 30;
                 mixers.push(object.mixer);
                 console.log(mixers);
-                var action = object.mixer.clipAction(object.animations[0]);
+                action = object.mixer.clipAction(object.animations[0],object);
                 console.log(action);
+                // action.time=1;
+                // action.timeScale=-1;
+                action.clampWhenFinished=true;
+                action.loop=THREE.LoopOnce;
                 action.play();
+
                 object.traverse(function (child) {
                     if (child.isMesh) {
                         child.castShadow = true;
@@ -84,14 +91,14 @@
                     }
                 });
                 console.log(object);
-                object.scale.x = 0.5;//模型X轴缩放系数
-                object.scale.y = 0.5;//模型Y轴缩放系数
-                object.scale.z = 0.5;//模型Z轴缩放系数
+                object.scale.x = 0.05;//模型X轴缩放系数
+                object.scale.y = 0.05;//模型Y轴缩放系数
+                object.scale.z = 0.05;//模型Z轴缩放系数
                 // object.position.z = 50;
                 start();
                 scene.add(object);
             });
-            
+
             window.addEventListener('resize', onWindowResize, false);
 
         }
@@ -103,19 +110,39 @@
         //
         function animate() {
             requestAnimationFrame(animate);
-            mixers[0].update();
+            mixers[0].update(clock.getDelta());
+            // console.log(clock.getDelta());
+            console.log(action.time);
+            // if (action.time<1 && action.time>=0) {
+            //     action.timeScale=1;                   
+            // }
+            
+            // if(action.time>=1){
+            //     // clock.oldTime=0;
+            //     action.timeScale=-1;
+            //     // action.paused=true;
+            // }
             renderer.render(scene, camera);
             // stats.update();
         }
         function start() {
             console.log(1);
-            if ( mixers.length > 0 ) {
-            	for ( var i = 0; i < mixers.length; i ++ ) {
+            if (mixers.length > 0) {
+                for (var i = 0; i < mixers.length; i++) {
                     // console.log(clock.getDelta());
-                    mixers[ i ].update( clock.getDelta() );
+                    mixers[i].update(clock.getDelta());
                     console.log(mixers);
-            	}
+                }
             }
+        }
+        function pause() {
+            if(action.paused){
+                action.paused=false;
+            }
+            else{
+                action.paused=true;
+            }
+            
         }
         // function render() {//控制器改变事件
 
