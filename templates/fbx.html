@@ -30,6 +30,7 @@
         var action;
         var clock = new THREE.Clock();
         var mixers = [];
+        var obj;
         init();
         animate();
         function init() {
@@ -71,31 +72,35 @@
             grid.material.transparent = true;
             scene.add(grid);
             var loader = new THREE.FBXLoader();
-            loader.load('/static/models/car/123.FBX', function (object) {
+            loader.load('/static/models/car/123.fbx', function (object) {
+                obj=object;
                 object.mixer = new THREE.AnimationMixer(object);
-                object.mixer.time = 30;
+                // object.mixer.time = 30;
                 mixers.push(object.mixer);
-                console.log(mixers);
+                // console.log(mixers);
+
                 action = object.mixer.clipAction(object.animations[0],object);
-                console.log(action);
-                // action.time=1;
+                // console.log(action);
+                action.time=1;
                 // action.timeScale=-1;
-                action.clampWhenFinished=true;
-                action.loop=THREE.LoopOnce;
+                // console.log(object.animations[0].duration);
+                // action.clampWhenFinished=true;
+                // action.loop=THREE.LoopOnce;
                 action.play();
 
-                object.traverse(function (child) {
-                    if (child.isMesh) {
-                        child.castShadow = true;
-                        child.receiveShadow = true;
-                    }
-                });
+                // object.traverse(function (child) {//材质投影
+                //     if (child.isMesh) {
+                //         child.castShadow = true;
+                //         child.receiveShadow = true;
+                //     }
+                // });
+                // console.log(action.time);
                 console.log(object);
-                object.scale.x = 0.05;//模型X轴缩放系数
-                object.scale.y = 0.05;//模型Y轴缩放系数
-                object.scale.z = 0.05;//模型Z轴缩放系数
-                // object.position.z = 50;
-                start();
+                object.scale.x = 0.1;//模型X轴缩放系数
+                object.scale.y = 0.1;//模型Y轴缩放系数
+                object.scale.z = 0.1;//模型Z轴缩放系数
+                // object.position.z= 60;
+                // start();
                 scene.add(object);
             });
 
@@ -108,25 +113,45 @@
             renderer.setSize(window.innerWidth, window.innerHeight);
         }
         //
+        var time;
         function animate() {
-            requestAnimationFrame(animate);
-            mixers[0].update(clock.getDelta());
+            requestAnimationFrame(animate);    
+            
+            var deltatime=clock.getDelta();
+            if(action.timeScale<0){
+                time=action.time+action.timeScale*deltatime;
+            }
+            else{time=action.time+deltatime;}
+            
+            // console.log(time+action.time);
             // console.log(clock.getDelta());
-            console.log(action.time);
+            console.log(action.time,deltatime,time);
             // if (action.time<1 && action.time>=0) {
             //     action.timeScale=1;                   
             // }
+            // console.log( time>=obj.animations[0].duration);
+
+            // console.log(action.time==0);
+            // // mixers[0].update(deltatime);
+            if(time>=obj.animations[0].duration){
+                // clock.oldTime=0;
+                // action.paused=true;
+                action.time=obj.animations[0].duration;
+                action.timeScale=-1;
+                // action.pause=false;
+                // action.enabled=false;
+            }else if (time<=0.5) {
+                action.time=0.5;
+                action.timeScale=1;
+            }
             
-            // if(action.time>=1){
-            //     // clock.oldTime=0;
-            //     action.timeScale=-1;
-            //     // action.paused=true;
-            // }
+                
+            mixers[0].update(deltatime);
+            
             renderer.render(scene, camera);
             // stats.update();
         }
-        function start() {
-            console.log(1);
+        function start() {            
             if (mixers.length > 0) {
                 for (var i = 0; i < mixers.length; i++) {
                     // console.log(clock.getDelta());
