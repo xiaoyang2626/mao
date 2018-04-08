@@ -41,6 +41,8 @@ def home(name=None):
         return render_template('debug.html')
     elif name=='fbx':
         return render_template('fbx.html')
+    elif name=='json':
+        return render_template('json.html')
 
 
 @app.route('/message', methods=['POST'])
