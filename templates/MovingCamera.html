@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+    <!--自适应框架CSS-->
+    <!--<link rel="stylesheet" href="css/bootstrap.css">-->
+    <!--JQueryUI CSS库-->
+    <link rel="stylesheet" href="/static/css/jquery-ui.min.css">
+    <!--threejs库-->
+    <script src="/static/js/three.js"></script>
+    <!--threejs控制器库-->
+    <script src="/static/js/OrbitControls.js"></script>
+    <!--JQuery框架-->
+    <script src="/static/js/jquery-3.2.1.min.js"></script>
+    <!--自适应框架-->
+    <!--<script src="js/bootstrap.js"></script>-->
+    <!--threejs obj载入库-->
+    <script src="/static/js/OBJLoader.js"></script>
+    <!--threejs状态栏库-->
+    <!--<script src="js/stats.min.js"></script>-->
+    <!--threejs mtl载入库-->
+    <script src="/static/js/MTLLoader.js"></script>
+    <!--JQueryUI库-->
+    <script src="/static/js/jquery-ui.min.js"></script>
+    <title>MovingCamera</title>
+</head>
+<body>
+    <button  style="height: 32px;height: 32px;"  onclick="MoveSt()"></button>
+    <div id="model"></div>
+    <script type="text/javascript">
+        var containner;//绘制层
+        var scene;//画板
+        var camera;//相机
+        var controls;//控制器
+        var renderer;//渲染器
+        var obj;//模型
+        var plane//plane块
+        var clock = new THREE.Clock();
+        var speed = 30;
+        var movestate=true;
+        var ResultX=0;
+        var ResultY=0;
+        var ResultZ=0;
+        var EP;
+        var TP=false;
+        function init() {
+            //声明画板
+            scene = new THREE.Scene();
+            //声明渲染器
+            renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });//antialias:true是否启用抗锯齿
+            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setSize(window.innerWidth, (window.innerHeight - 5) * 0.9);
+            renderer.localClippingEnabled = true;//开启clipping
+            //声明绘制层
+            containner = document.createElement('div');
+            containner.style.paddingTop = $(window).height() * 0.1 + 'px';
+            //        containner.style.height = 100%;
+            //将绘制层添加到模型层
+            $('#model').append(containner);
+            //设置模型层高度
+            $('#model').height($(window).height());
+            //向绘制层添加渲染结果
+            containner.appendChild(renderer.domElement);
+            //相机
+            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 10000);
+            console.log(camera);
+            camera.position.y = 185;//相机Y坐标为100
+            camera.position.z = 197;//相机Z坐标为300
+            camera.position.x = 0;
+            // scene.add(new THREE.CameraHelper(camera));
+            camera.lookAt(new THREE.Vector3(0,0,0));
+            //为相机添加控制器
+            controls = new THREE.OrbitControls(camera);
+            //监听控制器改变函数运行方法render
+            controls.addEventListener('change', render);
+            //创建Plane
+            plane = new THREE.Plane(new THREE.Vector3(0, -1, 0), 36);
+            //控制器启动自动旋转
+            // controls.autoRotate = false;
+            //光线设置
+            var directionalLight = new THREE.DirectionalLight(0xFFFFFF, 1.5);//定向光
+            //定向光位置设置
+            directionalLight.position.set(56, 75, -134);
+            //向画板中添加定向光
+            scene.add(directionalLight);
+            //第二个定向光
+            var light1 = new THREE.DirectionalLight(0xFFFFFF, 1.1);
+            light1.position.set(-75, 39, 75);
+            scene.add(light1);
+            //环境光
+            var light2 = new THREE.AmbientLight(0xFFFFFF);//环境光
+            //向画板添加环境光
+            scene.add(light2);
+            //        sprite.visible = false;
+            //        sprite.position.x=-60;
+            //        sprite.scale.x = 40;
+            //        sprite.scale.y = 40;
+            //        sprite.scale.z = 40;
+            //        scene.add(sprite);
+            //        console.log(sprite);
+            var onProgress = function ( xhr ) {
+
+                    if ( xhr.lengthComputable ) {
+
+                        var percentComplete = xhr.loaded / xhr.total * 100;
+                        console.log( Math.round( percentComplete, 2 ) + '% downloaded' );
+
+                    }
+
+            };
+
+            var onError = function () { };
+            //载入模型与材质
+            var mtlLoader = new THREE.MTLLoader();
+            mtlLoader.setPath('/static/89/');//mtl路径
+            mtlLoader.load('liangtaomox1.mtl', function (materials) {//载入mtl路径的哪个mtl文件
+                materials.preload();//载入物料
+                // texture = materials;//将导入物料传给程序集变量
+                // materials['materials']['1_qiangti']['clippingPlanes'] = [plane];//设置将plane附着在哪个模型
+                // materials['materials']['1_jiaju_1']['clippingPlanes'] = [plane];
+                // materials['materials']['1_jaiju_2']['clippingPlanes'] = [plane];
+                // materials['materials']['1_jiaju_3']['clippingPlanes'] = [plane];
+                // materials['materials']['1_qiangti']['clipShadows'] = true;//设置plane阴影启用
+                           console.log(materials);
+                var objLoader = new THREE.OBJLoader();//声明obj载入对象
+                objLoader.setMaterials(materials);//给obj模型设置物料
+                objLoader.setPath('/static/89/');//设置obj所在路径
+                objLoader.load('liangtaomox.obj', function (object) {//载入obj
+                    scene.add(object);//将obj添加到画板
+                    obj = object;//将模型赋值程序集变量obj
+                    //                console.log(obj);//调试输出模型
+                    obj.scale.x = 2;//模型X轴缩放系数
+                    obj.scale.y = 2;//模型Y轴缩放系数
+                    obj.scale.z = 2;//模型Z轴缩放系数
+                    obj['children'][0]['material'].color = new THREE.Color(0, 0, 0);
+                    obj['children'][1]['material'].color = new THREE.Color(0, 0, 0);
+                    obj['children'][2]['material'].color = new THREE.Color(0, 0, 0);
+                    // buttontime = 1;//当前时间按钮选中位置
+                    //                    $('#keting').css('background-image', "url('imgs/second_ke_down.png')");//默认客厅按钮选中
+                    //                    isAlltouming(false);
+                    // showMaterials('default');
+                    // optimeout = setInterval(opacity, 100);//首页渐变
+                }, onProgress, onError);
+            });
+            //        stats = new Stats();
+            //        stats.showPanel(2);
+            //        containner.appendChild(stats.dom);
+            window.addEventListener('resize', onWindowResize, false);//添加尺寸改变监听
+        }
+        function onWindowResize() {//屏幕尺寸改变调用函数
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+        function animate() {//动画更新函数
+                //    console.log('----------controls---------');
+                //    console.log(controls.target);
+                //    console.log('==========camera===========');
+                //    console.log(camera.position);
+            // var delta=clock.getDelta();
+            // console.log(obj);
+
+            if(!movestate ){
+                // var step=speed*delta;
+                console.log('==========camera===========');
+                console.log(camera.position);
+                // camera.translateOnAxis(new THREE.Vector3(0, 185, -197),step);
+                
+                
+                var delta=clock.getDelta();
+                var step=speed*delta;
+                // var SP=camera.position;
+                // EP=new THREE.Vector3(0,185,-19);
+                // TP=CheckTransitionPoint(SP,EP);
+                // console.log(TP);
+                // console.log(TP==true);      
+                if(TP==true){
+                    console.log('1111111111');
+                    Move(EP,step);
+                }
+                else{
+                    console.log("2222222222222");
+                    Move(TP,step);
+                }
+            }
+            else{
+
+                camera.lookAt(new THREE.Vector3(0,0,0));
+            }
+            
+            
+            requestAnimationFrame(animate);
+            controls.update();
+            //        stats.update();
+            render();
+
+        }
+        function render() {//控制器改变事件
+            renderer.render(scene, camera);
+        }
+        init();//初始化模型状态
+        animate();//实时更新模型状态
+        function Move(EndPoint,step){  
+            // console.log('==========Move===========');    
+            // console.log(EndPoint,step);
+            if(Math.round(step)>0){
+                step=0;
+            }
+            // console.log(camera.position.x,camera.position.y,camera.position.z);
+            var ResultX=EndPoint.x-camera.position.x;
+            var ResultY=EndPoint.y-camera.position.y;
+            var ResultZ=EndPoint.z-camera.position.z;
+            // console.log(ResultX,ResultY,ResultZ);
+            // console.log(EndPoint.equals(EP));
+            // console.log((ResultX>=0 ? camera.position.x>=x : camera.position.x<x) && (ResultY>=0 ? camera.position.y>=y : camera.position.y<y) && (ResultZ>=0 ? camera.position.z>=z : camera.position.z<z));
+            // if((ResultX>=0 ? camera.position.x>=x : camera.position.x<x) && (ResultY>=0 ? camera.position.y>=y : camera.position.y<y) && (ResultZ>=0 ? camera.position.z>=z : camera.position.z<z)){//判断是否已达到预设位置
+            //     console.log('1111111111111111');
+            //     camera.position=new THREE.Vector3(x,y,z);
+            //     camera.lookAt(new THREE.Vector3(0,0,0));
+            //     movestate=true;//移动已完成
+            // }else{
+                
+            //     console.log('==========camera===========');
+            //     console.log(camera.position);
+            //     console.log(x,y,z,step);
+            //     console.log(camera);
+            //     camera.translateOnAxis(new THREE.Vector3(x, y, z),step);
+            //     // camera.lookAt(new THREE.Vector3(0,0,0));
+            //     camera.setRotationFromEuler(new THREE.Euler().setFromVector3(new THREE.Vector3(x,y,z)));
+            //     movestate=false
+            // }
+            // console.log(new THREE.Vector3(0,1,-5)>=new THREE.Vector3(0,1,0));
+            // if(movestate){
+            //     movestate=false;
+            // }
+            // else{
+            //     movestate=true;
+            // }
+
+            if(Math.round(ResultX)>0){
+                // camera.translateZ(step);
+                camera.position.x+=step;
+            }
+            if(Math.round(ResultX)<0){
+                camera.position.x-=step;
+            }
+            if(Math.round(ResultY)>0){
+                // camera.translateZ(step);
+                camera.position.y+=step;
+            }
+            if(Math.round(ResultY)<0){
+                camera.position.y-=step;
+            }
+            if(Math.round(ResultZ)>0){
+                // camera.translateZ(step);
+                camera.position.z+=step;
+            }
+            if(Math.round(ResultZ)<0){
+                camera.position.z-=step;
+            }
+            if(Math.round(ResultZ)==0 && Math.round(ResultX)==0 && Math.round(ResultY)==0 && EndPoint.equals(EP)){
+                camera.position=EndPoint;
+                camera.lookAt(new THREE.Vector3(0,0,0));
+                movestate=true;
+            }
+            else if(Math.round(ResultZ)==0 && Math.round(ResultX)==0 && Math.round(ResultY)==0 && !EndPoint.equals(EP)){
+                camera.position=EndPoint;
+                camera.lookAt(new THREE.Vector3(0,0,0));
+                TP=true;
+                movestate=false;
+            }
+            else{     
+                camera.lookAt(new THREE.Vector3(0,0,0));           
+                movestate=false;
+            }
+        }
+        function MoveSt(){
+            // camera.position.y=185;
+            // camera.translateOnAxis(new THREE.Vector3(0,185,0),1);
+            console.log('==========camera1===========');
+            console.log(camera.position);   
+            var SP=camera.position;
+            EP=new THREE.Vector3(0,185,-197);
+            TP=CheckTransitionPoint(SP,EP);
+            console.log(TP);
+            console.log(TP==true);      
+            // console.log(CheckTransitionPoint(new THREE.Vector3(-1,185,197),new THREE.Vector3(1,185,19)));
+            // ResultX=x-camera.position.x;
+            // ResultY=y-camera.position.y;
+            // ResultZ=z-camera.position.z;
+            // console.log(new THREE.Euler().setFromVector3(new THREE.Vector3(0,0,0)));
+            // // obj.rotation=new THREE.Euler().setFromVector3(new THREE.Vector3(0,0,0));
+            // obj.rotateOnAxis(new THREE.Vector3(0,0,1),Math.PI/8);
+             if(movestate){
+                movestate=false;
+            }
+            else{
+                movestate=true;
+            }
+        }
+        //判断是否经过临界点(z=0),若经过临界点返回中间绕行点位
+        function CheckTransitionPoint(StartPoint,EndPoint){
+            //计算两个点方向是否相同(以(0.0)点为中心点)
+            var Direction=StartPoint.z*EndPoint.z//灵感来源于向量的长度
+            if(Direction<0){//方向小于0证明起始点到终止点路过中心点 此时需要返回绕行点位
+                if(StartPoint.x>=0){
+                    return new THREE.Vector3(Math.abs(Math.round(StartPoint.z)),StartPoint.y,0);                    
+                }
+                else{
+                    return new THREE.Vector3(-Math.abs(Math.round(StartPoint.z)),StartPoint.y,0);
+                }
+            }else{
+                return true;
+            }
+        }
+    </script>
+</body>
+</html>

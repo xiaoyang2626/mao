@@ -26,8 +26,8 @@ THREE.OrbitControls = function ( object, domElement ) {
 	this.target = new THREE.Vector3();
 
 	// How far you can dolly in and out ( PerspectiveCamera only )//缩放范围
-	this.minDistance = 100;
-	this.maxDistance = 400;
+	this.minDistance = - Infinity;
+	this.maxDistance = Infinity;
 
 	// How far you can zoom in and out ( OrthographicCamera only )
 	this.minZoom = 0;
@@ -36,7 +36,7 @@ THREE.OrbitControls = function ( object, domElement ) {
 	// How far you can orbit vertically, upper and lower limits.  上下旋转限制
 	// Range is 0 to Math.PI radians.
 	this.minPolarAngle = 0; // radians
-    this.maxPolarAngle = Math.PI/2; // radians
+    this.maxPolarAngle = Math.PI*2; // radians
 
 	// How far you can orbit horizontally, upper and lower limits.  左右旋转限制
 	// If set, must be a sub-interval of the interval [ - Math.PI, Math.PI ].
@@ -163,9 +163,11 @@ THREE.OrbitControls = function ( object, domElement ) {
 			spherical.theta = Math.max( scope.minAzimuthAngle, Math.min( scope.maxAzimuthAngle, spherical.theta ) );
 
 			// restrict phi to be between desired limits
-			//console.log(scope.minPolarAngle,scope.maxPolarAngle, spherical.phi);
+			// console.log(scope.minPolarAngle,scope.maxPolarAngle, spherical.phi);
+			// console.log(spherical.phi);
+			// console.log('111111111111')
 			spherical.phi = Math.max( scope.minPolarAngle, Math.min( scope.maxPolarAngle, spherical.phi ) );
-			//console.log(spherical.phi);
+			// console.log(spherical.phi);
 			spherical.makeSafe();
 
 

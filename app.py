@@ -43,6 +43,8 @@ def home(name=None):
         return render_template('fbx.html')
     elif name=='json':
         return render_template('json.html')
+    elif name=='MovingCamera':
+        return render_template('MovingCamera.html')
 
 
 @app.route('/message', methods=['POST'])
@@ -50,7 +52,7 @@ def AddMessage():
     name = request.form['name']
     phone = request.form['phone']
     try:
-        client = pymongo.MongoClient('127.0.0.1', 27017)
+        client = pymongo.MongoClient('127.0.0.1', 27017,username="adminUser",password="Woshinidiedi2626",authMechanism='SCRAM-SHA-1')
         db = client['mao']
         collection = db['message']
         objid = str(collection.insert_one(

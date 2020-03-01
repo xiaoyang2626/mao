@@ -85,6 +85,17 @@
             position: absolute;
         }
 
+        .thirdhelp {
+            background-image: url("/static/imgs/K1_113/third_remind.png");
+            height: 100%;
+            width: 100%;
+            background-size: 100% 100%;
+            opacity: 0.7;
+            display: none;
+            z-index: 18;
+            position: absolute;
+        }
+
         /*主界面样式*/
 
         .Main {
@@ -95,6 +106,16 @@
             /*position: absolute;*/
             /*如果是绝对定位会盖住模型*/
             z-index: 15;
+        }
+
+        .notice {
+            background-image: url("/static/imgs/new/second_remind.png");
+            height: 100%;
+            width: 100%;
+            background-size: 100% 100%;
+            display: none;
+            z-index: 17;
+            position: absolute;
         }
 
         .LightImage {
@@ -122,12 +143,13 @@
         /*户型简介*/
 
         .TypeSynopsis {
-            background-image: url("/static/imgs/new/first_introduce.png");
+            background-image: url("/static/imgs/K_113/first_introduce.png");
             height: 15.56%;
             top: 11.29%;
             width: 63.5%;
             position: absolute;
             background-size: 100% 100%;
+            display: none;
         }
 
         /*户型简介详细*/
@@ -355,6 +377,7 @@
     </div>
     <div class="Help" onclick="disshowhelp()"></div>
 
+
     <div class="Main">
         <!--主界面-->
         <div id="house_1" class="house" style="background-image: url('/static/imgs/K_113/forth_house_2.png');"></div>
@@ -540,7 +563,9 @@
         var buttonmove;//当前被选中的点位按钮
         //初始化户型简介 以及户型简介详细标签
         $('.TypeSynopsis').css('left', $(window).width());
-        $('.TypeSynopsisTableDetail').css('left', $(window).width());
+        $('.Main').hide();
+        $('.Help').hide();
+        // $('.TypeSynopsisTableDetail').css('left', $(window).width());
         initProgressbar();//初始化进度条
         init();//初始化模型状态
         animate();//实时更新模型状态
@@ -564,7 +589,7 @@
             //向绘制层添加渲染结果
             containner.appendChild(renderer.domElement);
             //相机
-            camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 1, 2000);
+            camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 2000);
             camera.position.y = 185;//相机Y坐标为100
             camera.position.z = 197;//相机Z坐标为300
             camera.position.x = 0;
@@ -679,6 +704,7 @@
             var opval = $('#Loading').css('opacity');//读取loading页面透明度
             if (opval <= 0) {
                 //渐变结束
+                $('.TypeSynopsis').show()
                 clearInterval(optimeout);//清除渐变时钟
                 $('#Loading').hide();//loading页面隐藏
                 //初始化户型简介 以及户型简介详细标签
