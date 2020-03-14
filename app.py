@@ -45,6 +45,8 @@ def home(name=None):
         return render_template('json.html')
     elif name=='MovingCamera':
         return render_template('MovingCamera.html')
+    elif name=='TestObject':
+        return render_template('TestObject.html')
 
 
 @app.route('/message', methods=['POST'])
